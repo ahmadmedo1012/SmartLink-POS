@@ -4,8 +4,7 @@ import { lazy, Suspense, useEffect, useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { ArrowLeft, CheckCircle2, Shield, Zap, Play } from "lucide-react"
 import { HeroLottie } from "@/components/lottie/lottie-player"
-import { BrandIntroFallback } from "@/components/remotion"
-// ponytail: Remotion BrandIntro used via fallback for SSR safety
+import { PremiumWalkthrough } from "@/components/remotion"
 
 const Features = lazy(() => import("@/components/landing/features"))
 const Stats = lazy(() => import("@/components/landing/stats"))
@@ -238,7 +237,7 @@ export function LandingPage() {
               className="relative w-[90vw] max-w-[500px] aspect-square rounded-3xl overflow-hidden shadow-2xl"
               onClick={(e) => e.stopPropagation()}
             >
-              <BrandIntroFallback />
+              <PremiumWalkthrough />
               <button
                 onClick={() => setShowIntro(false)}
                 className="absolute top-4 left-4 w-8 h-8 rounded-full bg-black/40 text-white flex items-center justify-center text-sm hover:bg-black/60 transition-colors cursor-pointer z-10"

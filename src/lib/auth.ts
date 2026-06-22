@@ -8,6 +8,7 @@ const secret = process.env.AUTH_SECRET || process.env.NEXTAUTH_SECRET || Buffer.
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   secret,
+  trustHost: true,
   providers: [
     Credentials({
       name: "credentials",
