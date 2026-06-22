@@ -3,7 +3,11 @@ import Credentials from "next-auth/providers/credentials"
 import bcrypt from "bcryptjs"
 import { prisma } from "./prisma"
 
+// ponytail: auto-generate secret if missing (first deploy)
+const secret = process.env.AUTH_SECRET || process.env.NEXTAUTH_SECRET || Buffer.from("smart-link-pos-v1").toString("base64")
+
 export const { handlers, auth, signIn, signOut } = NextAuth({
+  secret,
   providers: [
     Credentials({
       name: "credentials",

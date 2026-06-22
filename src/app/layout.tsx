@@ -23,7 +23,10 @@ export const metadata: Metadata = {
   title: "قنوات | Smart Link للأعمال",
   description: "نظام إدارة مبيعات ومخزون متكامل من Smart Link — نقطة بيع، مخزون، فواتير، تقارير",
   icons: {
-    icon: "/favicon.ico",
+    icon: [
+      { url: "/favicon.ico", sizes: "32x32" },
+      { url: "/logo.svg", type: "image/svg+xml" },
+    ],
     apple: "/apple-icon.png",
   },
   openGraph: {

@@ -40,7 +40,7 @@ export default function LoginPage() {
         {/* Brand Header */}
         <div className="text-center mb-9">
           <div className="mx-auto mb-5 w-auto flex items-center justify-center">
-            <img src="/logo-small.png" alt="Smart Link" className="max-w-[200px] h-auto" />
+            <img src="/logo.svg" alt="Smart Link" className="max-w-[200px] h-auto" />
           </div>
           <h1 className="text-[28px] font-bold text-gradient-amber leading-tight font-sans">
             قنوات
@@ -131,7 +131,7 @@ export default function LoginPage() {
 
         {/* Footer */}
         <p className="text-center text-[11px] text-muted-foreground mt-8 flex items-center justify-center gap-1.5">
-          <img src="/logo-small.png" alt="Smart Link" className="h-3.5 w-auto inline-block" />
+          <img src="/logo.svg" alt="Smart Link" className="h-3.5 w-auto inline-block" />
           &copy; {new Date().getFullYear()} قنوات | Smart Link. جميع الحقوق محفوظة.
         </p>
       </div>
