@@ -12,7 +12,7 @@ const Separator = forwardRef<HTMLDivElement, SeparatorProps>(
       ref={ref}
       className={cn(
         orientation === "horizontal"
-          ? "h-px bg-border/60 my-4"
+          ? "h-px bg-border my-4"
           : "w-px bg-border/60 mx-4 h-auto self-stretch",
         className,
       )}

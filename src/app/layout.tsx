@@ -1,20 +1,37 @@
 import type { Metadata } from "next"
-import { Tajawal } from "next/font/google"
+import { Readex_Pro, Noto_Sans_Arabic } from "next/font/google"
 import "./globals.css"
 import { Providers } from "./providers"
 
-const tajawal = Tajawal({
+const readexPro = Readex_Pro({
   subsets: ["arabic"],
-  weight: ["400", "500", "700", "800"],
+  weight: ["400", "500", "600", "700"],
   display: "swap",
-  variable: "--font-tajawal",
-  preload: true, // ponytail: preload Arabic font — it's critical for FCP
+  variable: "--font-heading",
+  preload: true,
+})
+
+const notoSansArabic = Noto_Sans_Arabic({
+  subsets: ["arabic"],
+  weight: ["400", "500", "600", "700"],
+  display: "swap",
+  variable: "--font-body",
+  preload: true,
 })
 
 export const metadata: Metadata = {
   title: "قنوات | Smart Link للأعمال",
   description: "نظام إدارة مبيعات ومخزون متكامل من Smart Link — نقطة بيع، مخزون، فواتير، تقارير",
-  icons: { icon: "/favicon.ico" },
+  icons: {
+    icon: "/favicon.ico",
+    apple: "/apple-icon.png",
+  },
+  openGraph: {
+    title: "قنوات | Smart Link للأعمال",
+    description: "نظام إدارة مبيعات ومخزون متكامل",
+    type: "website",
+    images: [{ url: "/icon-512.png", width: 512, height: 512 }],
+  },
 }
 
 export const viewport = {
@@ -24,7 +41,7 @@ export const viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="ar" dir="rtl" className={`${tajawal.variable} h-full`}>
+    <html lang="ar" dir="rtl" className={`${readexPro.variable} ${notoSansArabic.variable} h-full`}>
       <body className="min-h-full antialiased">
         <a
           href="#main-content"

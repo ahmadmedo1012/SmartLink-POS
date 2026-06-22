@@ -3,7 +3,7 @@
 import { useState } from "react"
 import { signIn } from "next-auth/react"
 import { useRouter } from "next/navigation"
-import { Store, Eye, EyeOff, Mail, Lock } from "lucide-react"
+import { Eye, EyeOff, Mail, Lock } from "lucide-react"
 import toast from "react-hot-toast"
 import { Button } from "@/components/ui/button"
 import { AnimatedLoadingDots } from "@/components/lottie/animated-icons"
@@ -39,8 +39,8 @@ export default function LoginPage() {
       <div className="w-full max-w-[380px] relative">
         {/* Brand Header */}
         <div className="text-center mb-9">
-          <div className="mx-auto mb-5 w-14 h-14 rounded-2xl bg-gradient-to-br from-primary to-accent flex items-center justify-center shadow-lg shadow-primary/20 ring-1 ring-white/10">
-            <Store className="w-7 h-7 text-white" strokeWidth={1.5} />
+          <div className="mx-auto mb-5 w-auto flex items-center justify-center">
+            <img src="/logo.png" alt="Smart Link" className="max-w-[200px] h-auto" />
           </div>
           <h1 className="text-[28px] font-bold text-gradient-amber leading-tight font-sans">
             قنوات
@@ -130,7 +130,8 @@ export default function LoginPage() {
         </Card>
 
         {/* Footer */}
-        <p className="text-center text-[11px] text-muted-foreground mt-8">
+        <p className="text-center text-[11px] text-muted-foreground mt-8 flex items-center justify-center gap-1.5">
+          <img src="/logo.png" alt="Smart Link" className="h-3.5 w-auto inline-block" />
           &copy; {new Date().getFullYear()} قنوات | Smart Link. جميع الحقوق محفوظة.
         </p>
       </div>

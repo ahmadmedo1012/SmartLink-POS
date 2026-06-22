@@ -147,9 +147,7 @@ export function Sidebar() {
           >
             {/* Logo */}
             <div className="flex items-center gap-2.5 px-5 h-16 border-b border-sidebar-border shrink-0">
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-accent flex items-center justify-center shadow-sm shadow-primary/20 shrink-0">
-                <span className="text-primary-foreground font-extrabold text-sm">قن</span>
-              </div>
+              <img src="/logo.png" alt="Smart Link" className="h-7 w-auto" />
               <div className="flex flex-col">
                 <span className="font-bold text-lg text-gradient-amber leading-tight">
                   قنوات
@@ -219,15 +217,7 @@ export function Sidebar() {
         {/* Logo */}
         <div className="flex items-center h-16 px-5 border-b border-sidebar-border shrink-0">
           <motion.div layout className="flex items-center gap-2.5 w-full" transition={{ duration: 0.3, ease: "easeInOut" }}>
-            <div className={cn(
-              "rounded-lg bg-gradient-to-br from-primary to-accent flex items-center justify-center shadow-sm shadow-primary/20 shrink-0",
-              collapsed ? "w-9 h-9" : "w-8 h-8"
-            )}>
-              <span className={cn(
-                "text-primary-foreground font-extrabold",
-                collapsed ? "text-lg" : "text-sm"
-              )}>{collapsed ? "ق" : "قن"}</span>
-            </div>
+            <img src="/logo.png" alt="Smart Link" className={cn("w-auto", collapsed ? "h-7" : "h-7")} />
             {!collapsed && (
               <motion.div
                 initial={{ opacity: 0 }}
@@ -253,7 +243,7 @@ export function Sidebar() {
         {collapsed && (
           <div className="px-3 pb-2 shrink-0">
             <div className="flex items-center justify-center w-full py-2 rounded-md bg-gradient-to-br from-primary/5 to-accent/5 border border-sidebar-border/50">
-              <span className="text-[10px] font-bold text-gradient-amber">ق</span>
+              <img src="/logo.png" alt="Smart Link" className="h-5 w-auto" />
             </div>
           </div>
         )}

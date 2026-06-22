@@ -32,12 +32,7 @@ const slides = [
     subtitle: "نظام متكامل لإدارة المبيعات والمخزون",
     body: "منصة سحابية عربية متكاملة، تجمع كل أدوات إدارة الأعمال في مكان واحد — صُممت خصيصاً للشركات الصغيرة والمتوسطة في الأسواق العربية.",
     icon: (
-      <svg viewBox="0 0 64 64" fill="none" className="w-8 h-8">
-        <rect x="8" y="20" width="48" height="36" rx="4" stroke="#f59e0b" strokeWidth="2.5" fill="rgba(245,158,11,0.1)" />
-        <path d="M8 28h48" stroke="#f59e0b" strokeWidth="2" />
-        <rect x="24" y="34" width="16" height="14" rx="2" stroke="#f59e0b" strokeWidth="1.5" />
-        <circle cx="32" cy="41" r="2" fill="#f59e0b" />
-      </svg>
+      <img src="/logo.png" alt="Smart Link" className="w-8 h-8" />
     ),
     highlights: ["مصممة خصيصاً للأسواق العربية", "واجهة عربية كاملة مع دعم RTL", "سحابية — اعمل من أي جهاز وفي أي وقت"],
   },

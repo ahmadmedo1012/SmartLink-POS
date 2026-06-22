@@ -9,7 +9,7 @@ interface EmptyStateProps { icon?: LucideIcon; title: string; description?: stri
 export function EmptyState({ icon: Icon, title, description, action }: EmptyStateProps) {
   return (
     <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.25 }} className="flex flex-col items-center justify-center py-24 px-6">
-      <div className="w-16 h-16 rounded-2xl bg-muted flex items-center justify-center mb-5 ring-1 ring-border/50">
+      <div className="w-16 h-16 rounded-[17px] bg-muted flex items-center justify-center mb-5 ring-1 ring-border/50">
         {Icon ? <Icon className="w-8 h-8 text-muted-foreground" strokeWidth={1.5} /> : <AnimatedEmptyBox size={32} />}
       </div>
       <p className="text-lg font-bold text-foreground">{title}</p>

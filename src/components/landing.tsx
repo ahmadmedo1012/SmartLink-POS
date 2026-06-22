@@ -41,9 +41,7 @@ function Navbar() {
       <nav className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         {/* Logo */}
         <a href="/" className="flex items-center gap-2">
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-amber-500 to-amber-600 shadow-glow">
-            <span className="text-sm font-extrabold text-white">ق</span>
-          </div>
+          <img src="/logo.png" alt="Smart Link" className="h-9 w-auto" />
           <span className="text-lg font-bold text-foreground">
             قنوات <span className="text-primary">|</span>{" "}
             <span className="text-sm font-medium text-muted-foreground">Smart Link</span>

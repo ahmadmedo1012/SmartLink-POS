@@ -33,7 +33,7 @@ function DropdownMenuContent({
         <Menu.Popup
           data-slot="dropdown-menu-content"
           className={cn(
-            "bg-popover text-popover-foreground rounded-2xl shadow-modal py-1.5 min-w-[220px] z-50 border border-border",
+            "bg-popover text-popover-foreground rounded-[17px] shadow-modal py-1.5 min-w-[220px] z-50 border border-border",
             className,
           )}
           {...props}
@@ -190,7 +190,7 @@ function DropdownMenuSubContent({
         <Menu.Popup
           data-slot="dropdown-menu-sub-content"
           className={cn(
-            "bg-popover text-popover-foreground rounded-2xl shadow-modal py-1.5 min-w-[220px] z-50 border border-border",
+            "bg-popover text-popover-foreground rounded-[17px] shadow-modal py-1.5 min-w-[220px] z-50 border border-border",
             className,
           )}
           {...props}

@@ -7,7 +7,7 @@ export function PageHeader({ title, subtitle, action }: PageHeaderProps) {
   return (
     <motion.div initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.2 }} className="flex flex-wrap items-center justify-between gap-4">
       <div>
-        <h1 className="text-2xl font-bold tracking-tight text-foreground">{title}</h1>
+        <h1 className="text-2xl font-['Readex_Pro'] font-normal tracking-tight text-foreground">{title}</h1>
         {subtitle && <p className="text-sm mt-0.5 text-muted-foreground">{subtitle}</p>}
       </div>
       {action && <div className="flex items-center gap-2">{action}</div>}
