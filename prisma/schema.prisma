@@ -1,0 +1,161 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String
+  email         String    @unique
+  passwordHash  String
+  role          String    @default("admin") // admin | cashier
+  isActive      Boolean   @default(true)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  invoices      Invoice[]
+  returns       Return[]
+  activityLogs  ActivityLog[]
+}
+
+model Category {
+  id          String    @id @default(cuid())
+  name        String
+  nameAr      String?
+  description String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  products    Product[]
+}
+
+model Product {
+  id          String    @id @default(cuid())
+  name        String
+  nameAr      String?   // Arabic name
+  barcode     String?   @unique
+  description String?
+  price       Decimal   @db.Decimal(10, 2)
+  cost        Decimal?  @db.Decimal(10, 2)
+  stock       Int       @default(0)
+  minStock    Int       @default(0)
+  categoryId  String?
+  category    Category? @relation(fields: [categoryId], references: [id])
+  isActive    Boolean   @default(true)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  invoiceItems InvoiceItem[]
+  returnItems  ReturnItem[]
+
+  @@index([categoryId])
+}
+
+model Customer {
+  id        String    @id @default(cuid())
+  name      String
+  phone     String?
+  email     String?
+  address   String?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  invoices  Invoice[]
+}
+
+model Supplier {
+  id        String   @id @default(cuid())
+  name      String
+  phone     String?
+  email     String?
+  address   String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Invoice {
+  id          String        @id @default(cuid())
+  invoiceNo   Int           @default(autoincrement())
+  total       Decimal       @db.Decimal(10, 2)
+  discount    Decimal       @default(0) @db.Decimal(10, 2)
+  tax         Decimal       @default(0) @db.Decimal(10, 2)
+  grandTotal  Decimal       @db.Decimal(10, 2)
+  paid        Decimal       @db.Decimal(10, 2)
+  status      String        @default("completed") // completed | refunded | partial
+  notes       String?
+  userId      String
+  user        User          @relation(fields: [userId], references: [id])
+  customerId  String?
+  customer    Customer?     @relation(fields: [customerId], references: [id])
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  items       InvoiceItem[]
+  returns     Return[]
+
+  @@index([userId])
+  @@index([customerId])
+}
+
+model InvoiceItem {
+  id        String   @id @default(cuid())
+  invoiceId String
+  invoice   Invoice  @relation(fields: [invoiceId], references: [id])
+  productId String
+  product   Product  @relation(fields: [productId], references: [id])
+  quantity  Int
+  price     Decimal  @db.Decimal(10, 2) // snapshot price at sale time
+  total     Decimal  @db.Decimal(10, 2)
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+
+  @@index([productId])
+  @@index([invoiceId])
+}
+
+model Return {
+  id          String       @id @default(cuid())
+  invoiceId   String
+  invoice     Invoice      @relation(fields: [invoiceId], references: [id])
+  userId      String
+  user        User         @relation(fields: [userId], references: [id])
+  reason      String?
+  total       Decimal      @db.Decimal(10, 2)
+  createdAt   DateTime     @default(now())
+  items       ReturnItem[]
+
+  @@index([invoiceId])
+}
+
+model ReturnItem {
+  id        String   @id @default(cuid())
+  returnId  String
+  returnR   Return   @relation(fields: [returnId], references: [id])
+  productId String
+  product   Product  @relation(fields: [productId], references: [id])
+  quantity  Int
+  price     Decimal  @db.Decimal(10, 2)
+  total     Decimal  @db.Decimal(10, 2)
+  createdAt DateTime @default(now())
+}
+
+model Expense {
+  id          String   @id @default(cuid())
+  description String
+  amount      Decimal  @db.Decimal(10, 2)
+  category    String   @default("عام")
+  date        DateTime @default(now())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model ActivityLog {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  action    String   // create | update | delete
+  entity    String   // product | invoice | customer | etc
+  entityId  String?
+  details   String?
+  createdAt DateTime @default(now())
+
+  @@index([userId, createdAt])
+}

@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: smartlink-pos
+    env: node
+    plan: free
+    buildCommand: npm install && npx prisma generate && npm run build
+    startCommand: npx prisma db push --accept-data-loss && npx next start -p $PORT
+    envVars:
+      - key: DATABASE_URL
+        sync: false
+      - key: NEXTAUTH_SECRET
+        generateValue: true
+      - key: AUTH_SECRET
+        generateValue: true
+      - key: NODE_VERSION
+        value: "22"
