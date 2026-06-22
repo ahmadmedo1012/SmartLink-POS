@@ -6,57 +6,59 @@
 
 # Test info
 
-- Name: accessibility.spec.ts >> Accessibility: Keyboard navigation >> tab through login form fields
-- Location: e2e/accessibility.spec.ts:163:7
+- Name: accessibility.spec.ts >> Accessibility: Dashboard keyboard navigation >> sidebar navigation items are keyboard accessible
+- Location: e2e/accessibility.spec.ts:185:7
 
 # Error details
 
 ```
-Error: expect(locator).toBeFocused() failed
+Error: expect(received).toBeGreaterThan(expected)
 
-Locator:  locator('#password')
-Expected: focused
-Received: inactive
-Timeout:  5000ms
-
-Call log:
-  - Expect "toBeFocused" with timeout 5000ms
-  - waiting for locator('#password')
-    14 × locator resolved to <input required="" id="password" type="password" value="admin123" placeholder="••••••••" class="bg-background text-foreground rounded-[12px] px-4 py-2.5 border border-input transition-colors duration-200 file:font-medium file:text-foreground placeholder:text-muted-foreground/50 focus-visible:border-primary focus-visible:ring-[3px] focus-visible:ring-primary/35 disabled:bg-muted/50 disabled:text-muted-foreground disabled:cursor-not-allowed aria-invalid:border-destructive pr-[38px] pl-10 h-11 text-sm"/>
-       - unexpected value "inactive"
-
+Expected: > 5
+Received:   0
 ```
 
+# Page snapshot
+
 ```yaml
-- textbox "كلمة المرور":
-  - /placeholder: ••••••••
-  - text: admin123
+- generic [active] [ref=e1]:
+  - link "تخطى إلى المحتوى الرئيسي" [ref=e2] [cursor=pointer]:
+    - /url: "#main-content"
+  - button "Open Next.js Dev Tools" [ref=e8] [cursor=pointer]:
+    - img [ref=e9]
+  - alert [ref=e12]
+  - generic [ref=e14]:
+    - generic [ref=e15]:
+      - img "Smart Link" [ref=e17]
+      - heading "قنوات" [level=1] [ref=e18]
+      - paragraph [ref=e19]: Smart Link للأعمال
+      - paragraph [ref=e20]: نظام متكامل لإدارة المبيعات والمخزون ونقاط البيع
+    - generic [ref=e23]:
+      - generic [ref=e24]:
+        - text: البريد الإلكتروني
+        - generic [ref=e25]:
+          - img
+          - textbox "البريد الإلكتروني" [ref=e26]:
+            - /placeholder: admin@pos.com
+            - text: admin@pos.com
+      - generic [ref=e27]:
+        - text: كلمة المرور
+        - generic [ref=e28]:
+          - img
+          - textbox "كلمة المرور" [ref=e29]:
+            - /placeholder: ••••••••
+            - text: admin123
+          - button "إظهار كلمة المرور" [ref=e30]:
+            - img [ref=e31]
+      - button "تسجيل الدخول" [ref=e34] [cursor=pointer]
+    - paragraph [ref=e35]:
+      - img "Smart Link" [ref=e36]
+      - text: © 2026 قنوات | Smart Link. جميع الحقوق محفوظة.
 ```
 
 # Test source
 
 ```ts
-  70  |     await expect(html).toHaveAttribute("dir", "rtl")
-  71  |   })
-  72  | 
-  73  |   test("skip-to-content link is present and focusable", async ({ page }) => {
-  74  |     await page.goto("/login")
-  75  | 
-  76  |     const skipLink = page.getByText("تخطى إلى المحتوى الرئيسي")
-  77  |     await expect(skipLink).toBeVisible()
-  78  |   })
-  79  | 
-  80  |   test("forms have labeled inputs", async ({ page }) => {
-  81  |     await page.goto("/login")
-  82  | 
-  83  |     const emailLabel = page.locator("label[for='email']")
-  84  |     await expect(emailLabel).toBeVisible()
-  85  |     await expect(emailLabel).toHaveText("البريد الإلكتروني")
-  86  | 
-  87  |     const passwordLabel = page.locator("label[for='password']")
-  88  |     await expect(passwordLabel).toBeVisible()
-  89  |     await expect(passwordLabel).toHaveText("كلمة المرور")
-  90  | 
   91  |     await expect(page.locator("#email")).toBeVisible()
   92  |     await expect(page.locator("#password")).toBeVisible()
   93  |   })
@@ -136,8 +138,7 @@ Call log:
   167 |     await expect(page.locator("#email")).toBeFocused()
   168 | 
   169 |     await page.keyboard.press("Tab")
-> 170 |     await expect(page.locator("#password")).toBeFocused()
-      |                                             ^ Error: expect(locator).toBeFocused() failed
+  170 |     await expect(page.locator("#password")).toBeFocused()
   171 | 
   172 |     // Password visibility toggle has tabIndex={-1} so Tab skips it.
   173 |     // Verify the submit button is focusable programmatically.
@@ -158,7 +159,8 @@ Call log:
   188 | 
   189 |     const navLinks = page.locator("aside a")
   190 |     const count = await navLinks.count()
-  191 |     expect(count).toBeGreaterThan(5)
+> 191 |     expect(count).toBeGreaterThan(5)
+      |                   ^ Error: expect(received).toBeGreaterThan(expected)
   192 | 
   193 |     const firstLink = navLinks.first()
   194 |     await firstLink.focus()
@@ -238,4 +240,25 @@ Call log:
   268 |         contentType: "application/json",
   269 |         body: JSON.stringify([]),
   270 |       }),
+  271 |     )
+  272 |   })
+  273 | 
+  274 |   test("customer name input has aria-label", async ({ page }) => {
+  275 |     await page.goto("/pos", { waitUntil: "networkidle" })
+  276 |     await page.waitForSelector("#main-content")
+  277 | 
+  278 |     await expect(page.getByLabel("اسم العميل")).toBeVisible()
+  279 |   })
+  280 | 
+  281 |   test("paid amount input has aria-label", async ({ page }) => {
+  282 |     await page.goto("/pos", { waitUntil: "networkidle" })
+  283 |     await page.waitForSelector("#main-content")
+  284 | 
+  285 |     await expect(page.getByLabel("المبلغ المدفوع")).toBeVisible()
+  286 |   })
+  287 | 
+  288 |   test("add to cart quantity controls have aria-labels", async ({ page }) => {
+  289 |     await page.goto("/pos", { waitUntil: "networkidle" })
+  290 |     await page.waitForSelector("#main-content")
+  291 | 
 ```

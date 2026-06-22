@@ -24,7 +24,7 @@ const features = [
     icon: FileText,
     title: "الفوترة الإلكترونية",
     description:
-      "إنشاء فواتير احترافية، إرسالها للعملاء عبر البريد الإلكتروني أو WhatsApp، ومطابقتها مع هيئة الزكاة والضريبة.",
+      "إنشاء فواتير احترافية، إرسالها للعملاء عبر البريد الإلكتروني أو WhatsApp، ومطابقتها مع الأنظمة المحاسبية.",
     gradient: "from-violet-500 to-purple-500",
     gradientBg: "from-violet-50 to-purple-50 dark:from-violet-900/20 dark:to-purple-900/20",
   },

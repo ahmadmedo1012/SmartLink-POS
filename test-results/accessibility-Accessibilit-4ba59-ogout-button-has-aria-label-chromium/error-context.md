@@ -6,36 +6,85 @@
 
 # Test info
 
-- Name: accessibility.spec.ts >> Accessibility: Keyboard navigation >> tab through login form fields
-- Location: e2e/accessibility.spec.ts:163:7
+- Name: accessibility.spec.ts >> Accessibility: Focus indicators >> logout button has aria-label
+- Location: e2e/accessibility.spec.ts:132:7
 
 # Error details
 
 ```
-Error: expect(locator).toBeFocused() failed
+Error: expect(locator).toBeVisible() failed
 
-Locator:  locator('#password')
-Expected: focused
-Received: inactive
-Timeout:  5000ms
+Locator: getByLabel('تسجيل الخروج')
+Expected: visible
+Timeout: 5000ms
+Error: element(s) not found
 
 Call log:
-  - Expect "toBeFocused" with timeout 5000ms
-  - waiting for locator('#password')
-    14 × locator resolved to <input required="" id="password" type="password" value="admin123" placeholder="••••••••" class="bg-background text-foreground rounded-[12px] px-4 py-2.5 border border-input transition-colors duration-200 file:font-medium file:text-foreground placeholder:text-muted-foreground/50 focus-visible:border-primary focus-visible:ring-[3px] focus-visible:ring-primary/35 disabled:bg-muted/50 disabled:text-muted-foreground disabled:cursor-not-allowed aria-invalid:border-destructive pr-[38px] pl-10 h-11 text-sm"/>
-       - unexpected value "inactive"
+  - Expect "toBeVisible" with timeout 5000ms
+  - waiting for getByLabel('تسجيل الخروج')
 
 ```
 
 ```yaml
+- link "تخطى إلى المحتوى الرئيسي":
+  - /url: "#main-content"
+- alert
+- img "Smart Link"
+- heading "قنوات" [level=1]
+- paragraph: Smart Link للأعمال
+- paragraph: نظام متكامل لإدارة المبيعات والمخزون ونقاط البيع
+- text: البريد الإلكتروني
+- textbox "البريد الإلكتروني":
+  - /placeholder: admin@pos.com
+  - text: admin@pos.com
+- text: كلمة المرور
 - textbox "كلمة المرور":
   - /placeholder: ••••••••
   - text: admin123
+- button "إظهار كلمة المرور"
+- button "تسجيل الدخول"
+- paragraph:
+  - img "Smart Link"
+  - text: © 2026 قنوات | Smart Link. جميع الحقوق محفوظة.
 ```
 
 # Test source
 
 ```ts
+  36  |         totalExpenses: 3200,
+  37  |         invoiceCount: 67,
+  38  |         recentInvoices: [],
+  39  |       }),
+  40  |     }),
+  41  |   )
+  42  | }
+  43  | 
+  44  | async function mockCategoriesApi(page: Page) {
+  45  |   await page.route("**/api/categories", (route) =>
+  46  |     route.fulfill({
+  47  |       status: 200,
+  48  |       contentType: "application/json",
+  49  |       body: JSON.stringify([]),
+  50  |     }),
+  51  |   )
+  52  | }
+  53  | 
+  54  | async function setupAuthenticatedDashboard(page: Page) {
+  55  |   await mockSession(page)
+  56  |   await mockDashboardApi(page)
+  57  |   await mockCategoriesApi(page)
+  58  | }
+  59  | 
+  60  | // ---------------------------------------------------------------------------
+  61  | // Tests
+  62  | // ---------------------------------------------------------------------------
+  63  | 
+  64  | test.describe("Accessibility: DOM structure & semantic HTML", () => {
+  65  |   test("html has lang and dir attributes set to RTL Arabic", async ({ page }) => {
+  66  |     await page.goto("/login")
+  67  | 
+  68  |     const html = page.locator("html")
+  69  |     await expect(html).toHaveAttribute("lang", "ar")
   70  |     await expect(html).toHaveAttribute("dir", "rtl")
   71  |   })
   72  | 
@@ -102,7 +151,8 @@ Call log:
   133 |     await page.goto("/pos", { waitUntil: "networkidle" })
   134 |     await page.waitForSelector("#main-content")
   135 | 
-  136 |     await expect(page.getByLabel("تسجيل الخروج")).toBeVisible()
+> 136 |     await expect(page.getByLabel("تسجيل الخروج")).toBeVisible()
+      |                                                   ^ Error: expect(locator).toBeVisible() failed
   137 |   })
   138 | })
   139 | 
@@ -136,8 +186,7 @@ Call log:
   167 |     await expect(page.locator("#email")).toBeFocused()
   168 | 
   169 |     await page.keyboard.press("Tab")
-> 170 |     await expect(page.locator("#password")).toBeFocused()
-      |                                             ^ Error: expect(locator).toBeFocused() failed
+  170 |     await expect(page.locator("#password")).toBeFocused()
   171 | 
   172 |     // Password visibility toggle has tabIndex={-1} so Tab skips it.
   173 |     // Verify the submit button is focusable programmatically.
@@ -204,38 +253,4 @@ Call log:
   234 |     )
   235 |     expect(bodyBg).not.toBe("transparent")
   236 |     expect(bodyBg).not.toBe("rgb(0, 0, 0)")
-  237 |   })
-  238 | 
-  239 |   test("text is visible in dark mode", async ({ page }) => {
-  240 |     await page.addInitScript(() => {
-  241 |       localStorage.setItem("theme", "dark")
-  242 |     })
-  243 |     await page.goto("/login")
-  244 |     await page.waitForSelector("html.dark")
-  245 | 
-  246 |     const heading = page.locator("h1")
-  247 |     await expect(heading).toBeVisible()
-  248 |   })
-  249 | })
-  250 | 
-  251 | test.describe("Accessibility: POS page ARIA", () => {
-  252 |   test.beforeEach(async ({ page }) => {
-  253 |     await mockSession(page)
-  254 |     await page.route("**/api/pos/products*", (route) =>
-  255 |       route.fulfill({
-  256 |         status: 200,
-  257 |         contentType: "application/json",
-  258 |         body: JSON.stringify([
-  259 |           { id: "p1", nameAr: "منتج أ", name: "Product A", price: 25, stock: 100, barcode: "111111" },
-  260 |           { id: "p2", nameAr: "منتج ب", name: "Product B", price: 50, stock: 75, barcode: "222222" },
-  261 |         ]),
-  262 |       }),
-  263 |     )
-  264 |     await mockCategoriesApi(page)
-  265 |     await page.route("**/api/customers*", (route) =>
-  266 |       route.fulfill({
-  267 |         status: 200,
-  268 |         contentType: "application/json",
-  269 |         body: JSON.stringify([]),
-  270 |       }),
 ```

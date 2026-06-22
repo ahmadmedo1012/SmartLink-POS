@@ -8,7 +8,7 @@
 - **Brand differentiator**: Amber/gold (قنوات) color identity -- warm, trust-oriented, distinct from generic blue SaaS.
 
 ### Target User
-- **Primary**: Small-to-medium retail business owners in Arabic-speaking markets (Saudi Arabia, Egypt, UAE, Levant). Bilingual (Arabic UI, occasional English product names).
+- **Primary**: Small-to-medium retail business owners in Libya and Arabic-speaking markets. Bilingual (Arabic UI, occasional English product names).
 - **Secondary**: Cashiers / counter staff who need fast keyboard-driven POS workflow (barcode scanner, F1/F3 shortcuts).
 - **Tertiary**: Accountants tracking expenses, profit margins, invoices.
 

@@ -6,7 +6,7 @@ import { createContext, useContext, useState, useEffect, useCallback, type React
 // Types
 // ---------------------------------------------------------------------------
 
-export type CurrencyCode = 'LYD' | 'USD' | 'EUR' | 'SAR';
+export type CurrencyCode = 'LYD' | 'USD' | 'EUR' | 'TND';
 
 export interface CurrencyInfo {
   code: CurrencyCode;
@@ -24,7 +24,7 @@ export const CURRENCIES: Record<CurrencyCode, CurrencyInfo> = {
   LYD: { code: 'LYD', symbol: 'ل.د', name: 'Libyan Dinar', flag: '🇱🇾', rate: 1 },
   USD: { code: 'USD', symbol: '$', name: 'US Dollar', flag: '🇺🇸', rate: 0.21 },
   EUR: { code: 'EUR', symbol: '€', name: 'Euro', flag: '🇪🇺', rate: 0.19 },
-  SAR: { code: 'SAR', symbol: '﷼', name: 'Saudi Riyal', flag: '🇸🇦', rate: 0.78 },
+  TND: { code: 'TND', symbol: 'د.ت', name: 'Tunisian Dinar', flag: '🇹🇳', rate: 0.61 },
 };
 
 export const DEFAULT_CURRENCY: CurrencyCode = 'LYD';

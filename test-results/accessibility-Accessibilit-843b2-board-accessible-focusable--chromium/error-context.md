@@ -6,71 +6,63 @@
 
 # Test info
 
-- Name: accessibility.spec.ts >> Accessibility: Keyboard navigation >> tab through login form fields
-- Location: e2e/accessibility.spec.ts:163:7
+- Name: accessibility.spec.ts >> Accessibility: Dashboard keyboard navigation >> quick action cards are keyboard accessible (focusable)
+- Location: e2e/accessibility.spec.ts:198:7
 
 # Error details
 
 ```
-Error: expect(locator).toBeFocused() failed
+Test timeout of 30000ms exceeded.
+```
 
-Locator:  locator('#password')
-Expected: focused
-Received: inactive
-Timeout:  5000ms
-
+```
+Error: locator.focus: Test timeout of 30000ms exceeded.
 Call log:
-  - Expect "toBeFocused" with timeout 5000ms
-  - waiting for locator('#password')
-    14 × locator resolved to <input required="" id="password" type="password" value="admin123" placeholder="••••••••" class="bg-background text-foreground rounded-[12px] px-4 py-2.5 border border-input transition-colors duration-200 file:font-medium file:text-foreground placeholder:text-muted-foreground/50 focus-visible:border-primary focus-visible:ring-[3px] focus-visible:ring-primary/35 disabled:bg-muted/50 disabled:text-muted-foreground disabled:cursor-not-allowed aria-invalid:border-destructive pr-[38px] pl-10 h-11 text-sm"/>
-       - unexpected value "inactive"
+  - waiting for locator('aside a').first()
 
 ```
 
+# Page snapshot
+
 ```yaml
-- textbox "كلمة المرور":
-  - /placeholder: ••••••••
-  - text: admin123
+- generic [active] [ref=e1]:
+  - link "تخطى إلى المحتوى الرئيسي" [ref=e2] [cursor=pointer]:
+    - /url: "#main-content"
+  - button "Open Next.js Dev Tools" [ref=e8] [cursor=pointer]:
+    - img [ref=e9]
+  - alert [ref=e12]
+  - generic [ref=e14]:
+    - generic [ref=e15]:
+      - img "Smart Link" [ref=e17]
+      - heading "قنوات" [level=1] [ref=e18]
+      - paragraph [ref=e19]: Smart Link للأعمال
+      - paragraph [ref=e20]: نظام متكامل لإدارة المبيعات والمخزون ونقاط البيع
+    - generic [ref=e23]:
+      - generic [ref=e24]:
+        - text: البريد الإلكتروني
+        - generic [ref=e25]:
+          - img
+          - textbox "البريد الإلكتروني" [ref=e26]:
+            - /placeholder: admin@pos.com
+            - text: admin@pos.com
+      - generic [ref=e27]:
+        - text: كلمة المرور
+        - generic [ref=e28]:
+          - img
+          - textbox "كلمة المرور" [ref=e29]:
+            - /placeholder: ••••••••
+            - text: admin123
+          - button "إظهار كلمة المرور" [ref=e30]:
+            - img [ref=e31]
+      - button "تسجيل الدخول" [ref=e34] [cursor=pointer]
+    - paragraph [ref=e35]:
+      - img "Smart Link" [ref=e36]
+      - text: © 2026 قنوات | Smart Link. جميع الحقوق محفوظة.
 ```
 
 # Test source
 
 ```ts
-  70  |     await expect(html).toHaveAttribute("dir", "rtl")
-  71  |   })
-  72  | 
-  73  |   test("skip-to-content link is present and focusable", async ({ page }) => {
-  74  |     await page.goto("/login")
-  75  | 
-  76  |     const skipLink = page.getByText("تخطى إلى المحتوى الرئيسي")
-  77  |     await expect(skipLink).toBeVisible()
-  78  |   })
-  79  | 
-  80  |   test("forms have labeled inputs", async ({ page }) => {
-  81  |     await page.goto("/login")
-  82  | 
-  83  |     const emailLabel = page.locator("label[for='email']")
-  84  |     await expect(emailLabel).toBeVisible()
-  85  |     await expect(emailLabel).toHaveText("البريد الإلكتروني")
-  86  | 
-  87  |     const passwordLabel = page.locator("label[for='password']")
-  88  |     await expect(passwordLabel).toBeVisible()
-  89  |     await expect(passwordLabel).toHaveText("كلمة المرور")
-  90  | 
-  91  |     await expect(page.locator("#email")).toBeVisible()
-  92  |     await expect(page.locator("#password")).toBeVisible()
-  93  |   })
-  94  | 
-  95  |   test("password visibility toggle has aria-label", async ({ page }) => {
-  96  |     await page.goto("/login")
-  97  | 
-  98  |     const toggleBtn = page.getByLabel("إظهار كلمة المرور")
-  99  |     await expect(toggleBtn).toBeVisible()
-  100 | 
-  101 |     await toggleBtn.click()
-  102 |     await expect(page.getByLabel("إخفاء كلمة المرور")).toBeVisible()
-  103 |   })
-  104 | 
   105 |   test("main content area uses #main-content id", async ({ page }) => {
   106 |     await setupAuthenticatedDashboard(page)
   107 |     await page.goto("/", { waitUntil: "networkidle" })
@@ -136,8 +128,7 @@ Call log:
   167 |     await expect(page.locator("#email")).toBeFocused()
   168 | 
   169 |     await page.keyboard.press("Tab")
-> 170 |     await expect(page.locator("#password")).toBeFocused()
-      |                                             ^ Error: expect(locator).toBeFocused() failed
+  170 |     await expect(page.locator("#password")).toBeFocused()
   171 | 
   172 |     // Password visibility toggle has tabIndex={-1} so Tab skips it.
   173 |     // Verify the submit button is focusable programmatically.
@@ -172,7 +163,8 @@ Call log:
   202 |     // Quick action cards only appear on dashboard root (/), not on /pos
   203 |     // So test that sidebar nav links are focusable instead
   204 |     const firstNavLink = page.locator("aside a").first()
-  205 |     await firstNavLink.focus()
+> 205 |     await firstNavLink.focus()
+      |                        ^ Error: locator.focus: Test timeout of 30000ms exceeded.
   206 |     await expect(firstNavLink).toBeFocused()
   207 |   })
   208 | })
@@ -238,4 +230,39 @@ Call log:
   268 |         contentType: "application/json",
   269 |         body: JSON.stringify([]),
   270 |       }),
+  271 |     )
+  272 |   })
+  273 | 
+  274 |   test("customer name input has aria-label", async ({ page }) => {
+  275 |     await page.goto("/pos", { waitUntil: "networkidle" })
+  276 |     await page.waitForSelector("#main-content")
+  277 | 
+  278 |     await expect(page.getByLabel("اسم العميل")).toBeVisible()
+  279 |   })
+  280 | 
+  281 |   test("paid amount input has aria-label", async ({ page }) => {
+  282 |     await page.goto("/pos", { waitUntil: "networkidle" })
+  283 |     await page.waitForSelector("#main-content")
+  284 | 
+  285 |     await expect(page.getByLabel("المبلغ المدفوع")).toBeVisible()
+  286 |   })
+  287 | 
+  288 |   test("add to cart quantity controls have aria-labels", async ({ page }) => {
+  289 |     await page.goto("/pos", { waitUntil: "networkidle" })
+  290 |     await page.waitForSelector("#main-content")
+  291 | 
+  292 |     // Add item to cart first
+  293 |     await page.getByText("منتج أ").first().click()
+  294 | 
+  295 |     // Now increment/decrement buttons should exist
+  296 |     await expect(page.getByLabel("زيادة الكمية")).toBeVisible()
+  297 |     await expect(page.getByLabel("تقليل الكمية")).toBeVisible()
+  298 |   })
+  299 | })
+  300 | 
+  301 | test.describe("Accessibility: Empty states", () => {
+  302 |   test("POS cart empty state has descriptive text", async ({ page }) => {
+  303 |     await mockSession(page)
+  304 |     await page.route("**/api/pos/products*", (route) =>
+  305 |       route.fulfill({
 ```

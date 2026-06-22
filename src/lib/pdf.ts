@@ -62,8 +62,8 @@ export function generateInvoicePDF(invoice: InvoiceData): jsPDF {
     i + 1,
     item.product.nameAr || item.product.name,
     item.quantity,
-    `${Number(item.price).toLocaleString()} ر.س`,
-    `${Number(item.total).toLocaleString()} ر.س`,
+    `${Number(item.price).toLocaleString()} ل.د`,
+    `${Number(item.total).toLocaleString()} ل.د`,
   ])
 
   ;(doc as any).autoTable({
@@ -81,12 +81,12 @@ export function generateInvoicePDF(invoice: InvoiceData): jsPDF {
   const finalY = (doc as any).lastAutoTable.finalY + 10
   doc.setFontSize(11)
   const totals = [
-    ["الإجمالي", `${Number(invoice.total).toLocaleString()} ر.س`],
-    ["الخصم", `${Number(invoice.discount).toLocaleString()} ر.س`],
-    ["الضريبة", `${Number(invoice.tax).toLocaleString()} ر.س`],
-    ["الصافي", `${Number(invoice.grandTotal).toLocaleString()} ر.س`],
-    ["المدفوع", `${Number(invoice.paid).toLocaleString()} ر.س`],
-    ["المتبقي", `${(Number(invoice.grandTotal) - Number(invoice.paid)).toLocaleString()} ر.س`],
+    ["الإجمالي", `${Number(invoice.total).toLocaleString()} ل.د`],
+    ["الخصم", `${Number(invoice.discount).toLocaleString()} ل.د`],
+    ["الضريبة", `${Number(invoice.tax).toLocaleString()} ل.د`],
+    ["الصافي", `${Number(invoice.grandTotal).toLocaleString()} ل.د`],
+    ["المدفوع", `${Number(invoice.paid).toLocaleString()} ل.د`],
+    ["المتبقي", `${(Number(invoice.grandTotal) - Number(invoice.paid)).toLocaleString()} ل.د`],
   ]
   totals.forEach(([k, v]) => {
     doc.text(v, pageWidth - 20, finalY, { align: "right" })

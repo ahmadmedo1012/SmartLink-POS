@@ -6,36 +6,63 @@
 
 # Test info
 
-- Name: accessibility.spec.ts >> Accessibility: Keyboard navigation >> tab through login form fields
-- Location: e2e/accessibility.spec.ts:163:7
+- Name: accessibility.spec.ts >> Accessibility: ARIA labels on icon-only buttons >> mobile hamburger has aria-label
+- Location: e2e/accessibility.spec.ts:153:7
 
 # Error details
 
 ```
-Error: expect(locator).toBeFocused() failed
+Error: expect(locator).toBeVisible() failed
 
-Locator:  locator('#password')
-Expected: focused
-Received: inactive
-Timeout:  5000ms
+Locator: getByLabel('القائمة')
+Expected: visible
+Timeout: 5000ms
+Error: element(s) not found
 
 Call log:
-  - Expect "toBeFocused" with timeout 5000ms
-  - waiting for locator('#password')
-    14 × locator resolved to <input required="" id="password" type="password" value="admin123" placeholder="••••••••" class="bg-background text-foreground rounded-[12px] px-4 py-2.5 border border-input transition-colors duration-200 file:font-medium file:text-foreground placeholder:text-muted-foreground/50 focus-visible:border-primary focus-visible:ring-[3px] focus-visible:ring-primary/35 disabled:bg-muted/50 disabled:text-muted-foreground disabled:cursor-not-allowed aria-invalid:border-destructive pr-[38px] pl-10 h-11 text-sm"/>
-       - unexpected value "inactive"
+  - Expect "toBeVisible" with timeout 5000ms
+  - waiting for getByLabel('القائمة')
 
 ```
 
 ```yaml
+- link "تخطى إلى المحتوى الرئيسي":
+  - /url: "#main-content"
+- alert
+- img "Smart Link"
+- heading "قنوات" [level=1]
+- paragraph: Smart Link للأعمال
+- paragraph: نظام متكامل لإدارة المبيعات والمخزون ونقاط البيع
+- text: البريد الإلكتروني
+- textbox "البريد الإلكتروني":
+  - /placeholder: admin@pos.com
+  - text: admin@pos.com
+- text: كلمة المرور
 - textbox "كلمة المرور":
   - /placeholder: ••••••••
   - text: admin123
+- button "إظهار كلمة المرور"
+- button "تسجيل الدخول"
+- paragraph:
+  - img "Smart Link"
+  - text: © 2026 قنوات | Smart Link. جميع الحقوق محفوظة.
 ```
 
 # Test source
 
 ```ts
+  58  | }
+  59  | 
+  60  | // ---------------------------------------------------------------------------
+  61  | // Tests
+  62  | // ---------------------------------------------------------------------------
+  63  | 
+  64  | test.describe("Accessibility: DOM structure & semantic HTML", () => {
+  65  |   test("html has lang and dir attributes set to RTL Arabic", async ({ page }) => {
+  66  |     await page.goto("/login")
+  67  | 
+  68  |     const html = page.locator("html")
+  69  |     await expect(html).toHaveAttribute("lang", "ar")
   70  |     await expect(html).toHaveAttribute("dir", "rtl")
   71  |   })
   72  | 
@@ -124,7 +151,8 @@ Call log:
   155 |     await page.goto("/pos", { waitUntil: "networkidle" })
   156 |     await page.waitForSelector("#main-content")
   157 | 
-  158 |     await expect(page.getByLabel("القائمة")).toBeVisible()
+> 158 |     await expect(page.getByLabel("القائمة")).toBeVisible()
+      |                                              ^ Error: expect(locator).toBeVisible() failed
   159 |   })
   160 | })
   161 | 
@@ -136,8 +164,7 @@ Call log:
   167 |     await expect(page.locator("#email")).toBeFocused()
   168 | 
   169 |     await page.keyboard.press("Tab")
-> 170 |     await expect(page.locator("#password")).toBeFocused()
-      |                                             ^ Error: expect(locator).toBeFocused() failed
+  170 |     await expect(page.locator("#password")).toBeFocused()
   171 | 
   172 |     // Password visibility toggle has tabIndex={-1} so Tab skips it.
   173 |     // Verify the submit button is focusable programmatically.
@@ -226,16 +253,4 @@ Call log:
   256 |         status: 200,
   257 |         contentType: "application/json",
   258 |         body: JSON.stringify([
-  259 |           { id: "p1", nameAr: "منتج أ", name: "Product A", price: 25, stock: 100, barcode: "111111" },
-  260 |           { id: "p2", nameAr: "منتج ب", name: "Product B", price: 50, stock: 75, barcode: "222222" },
-  261 |         ]),
-  262 |       }),
-  263 |     )
-  264 |     await mockCategoriesApi(page)
-  265 |     await page.route("**/api/customers*", (route) =>
-  266 |       route.fulfill({
-  267 |         status: 200,
-  268 |         contentType: "application/json",
-  269 |         body: JSON.stringify([]),
-  270 |       }),
 ```

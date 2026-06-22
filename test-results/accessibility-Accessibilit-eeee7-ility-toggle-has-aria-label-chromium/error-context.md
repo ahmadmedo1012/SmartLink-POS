@@ -6,36 +6,119 @@
 
 # Test info
 
-- Name: accessibility.spec.ts >> Accessibility: Keyboard navigation >> tab through login form fields
-- Location: e2e/accessibility.spec.ts:163:7
+- Name: accessibility.spec.ts >> Accessibility: DOM structure & semantic HTML >> password visibility toggle has aria-label
+- Location: e2e/accessibility.spec.ts:95:7
 
 # Error details
 
 ```
-Error: expect(locator).toBeFocused() failed
+Error: expect(locator).toBeVisible() failed
 
-Locator:  locator('#password')
-Expected: focused
-Received: inactive
-Timeout:  5000ms
+Locator: getByLabel('إخفاء كلمة المرور')
+Expected: visible
+Timeout: 5000ms
+Error: element(s) not found
 
 Call log:
-  - Expect "toBeFocused" with timeout 5000ms
-  - waiting for locator('#password')
-    14 × locator resolved to <input required="" id="password" type="password" value="admin123" placeholder="••••••••" class="bg-background text-foreground rounded-[12px] px-4 py-2.5 border border-input transition-colors duration-200 file:font-medium file:text-foreground placeholder:text-muted-foreground/50 focus-visible:border-primary focus-visible:ring-[3px] focus-visible:ring-primary/35 disabled:bg-muted/50 disabled:text-muted-foreground disabled:cursor-not-allowed aria-invalid:border-destructive pr-[38px] pl-10 h-11 text-sm"/>
-       - unexpected value "inactive"
+  - Expect "toBeVisible" with timeout 5000ms
+  - waiting for getByLabel('إخفاء كلمة المرور')
 
 ```
 
 ```yaml
+- link "تخطى إلى المحتوى الرئيسي":
+  - /url: "#main-content"
+- alert
+- img "Smart Link"
+- heading "قنوات" [level=1]
+- paragraph: Smart Link للأعمال
+- paragraph: نظام متكامل لإدارة المبيعات والمخزون ونقاط البيع
+- text: البريد الإلكتروني
+- textbox "البريد الإلكتروني":
+  - /placeholder: admin@pos.com
+  - text: admin@pos.com
+- text: كلمة المرور
 - textbox "كلمة المرور":
   - /placeholder: ••••••••
   - text: admin123
+- button "إظهار كلمة المرور"
+- button "تسجيل الدخول"
+- paragraph:
+  - img "Smart Link"
+  - text: © 2026 قنوات | Smart Link. جميع الحقوق محفوظة.
 ```
 
 # Test source
 
 ```ts
+  2   | 
+  3   | // ---------------------------------------------------------------------------
+  4   | // Helpers
+  5   | // ---------------------------------------------------------------------------
+  6   | const MOCK_USER = {
+  7   |   id: "1",
+  8   |   name: "أحمد",
+  9   |   email: "admin@pos.com",
+  10  |   role: "admin",
+  11  | }
+  12  | 
+  13  | async function mockSession(page: Page) {
+  14  |   await page.route("**/api/auth/session", (route) =>
+  15  |     route.fulfill({
+  16  |       status: 200,
+  17  |       contentType: "application/json",
+  18  |       body: JSON.stringify({
+  19  |         user: MOCK_USER,
+  20  |         expires: new Date(Date.now() + 86_400_000).toISOString(),
+  21  |       }),
+  22  |     }),
+  23  |   )
+  24  | }
+  25  | 
+  26  | async function mockDashboardApi(page: Page) {
+  27  |   await page.route("**/api/dashboard", (route) =>
+  28  |     route.fulfill({
+  29  |       status: 200,
+  30  |       contentType: "application/json",
+  31  |       body: JSON.stringify({
+  32  |         totalSales: 15200,
+  33  |         estimatedProfit: 4800,
+  34  |         productCount: 142,
+  35  |         customerCount: 89,
+  36  |         totalExpenses: 3200,
+  37  |         invoiceCount: 67,
+  38  |         recentInvoices: [],
+  39  |       }),
+  40  |     }),
+  41  |   )
+  42  | }
+  43  | 
+  44  | async function mockCategoriesApi(page: Page) {
+  45  |   await page.route("**/api/categories", (route) =>
+  46  |     route.fulfill({
+  47  |       status: 200,
+  48  |       contentType: "application/json",
+  49  |       body: JSON.stringify([]),
+  50  |     }),
+  51  |   )
+  52  | }
+  53  | 
+  54  | async function setupAuthenticatedDashboard(page: Page) {
+  55  |   await mockSession(page)
+  56  |   await mockDashboardApi(page)
+  57  |   await mockCategoriesApi(page)
+  58  | }
+  59  | 
+  60  | // ---------------------------------------------------------------------------
+  61  | // Tests
+  62  | // ---------------------------------------------------------------------------
+  63  | 
+  64  | test.describe("Accessibility: DOM structure & semantic HTML", () => {
+  65  |   test("html has lang and dir attributes set to RTL Arabic", async ({ page }) => {
+  66  |     await page.goto("/login")
+  67  | 
+  68  |     const html = page.locator("html")
+  69  |     await expect(html).toHaveAttribute("lang", "ar")
   70  |     await expect(html).toHaveAttribute("dir", "rtl")
   71  |   })
   72  | 
@@ -68,7 +151,8 @@ Call log:
   99  |     await expect(toggleBtn).toBeVisible()
   100 | 
   101 |     await toggleBtn.click()
-  102 |     await expect(page.getByLabel("إخفاء كلمة المرور")).toBeVisible()
+> 102 |     await expect(page.getByLabel("إخفاء كلمة المرور")).toBeVisible()
+      |                                                        ^ Error: expect(locator).toBeVisible() failed
   103 |   })
   104 | 
   105 |   test("main content area uses #main-content id", async ({ page }) => {
@@ -136,8 +220,7 @@ Call log:
   167 |     await expect(page.locator("#email")).toBeFocused()
   168 | 
   169 |     await page.keyboard.press("Tab")
-> 170 |     await expect(page.locator("#password")).toBeFocused()
-      |                                             ^ Error: expect(locator).toBeFocused() failed
+  170 |     await expect(page.locator("#password")).toBeFocused()
   171 | 
   172 |     // Password visibility toggle has tabIndex={-1} so Tab skips it.
   173 |     // Verify the submit button is focusable programmatically.
@@ -170,72 +253,4 @@ Call log:
   200 |     await page.waitForSelector("#main-content")
   201 | 
   202 |     // Quick action cards only appear on dashboard root (/), not on /pos
-  203 |     // So test that sidebar nav links are focusable instead
-  204 |     const firstNavLink = page.locator("aside a").first()
-  205 |     await firstNavLink.focus()
-  206 |     await expect(firstNavLink).toBeFocused()
-  207 |   })
-  208 | })
-  209 | 
-  210 | test.describe("Accessibility: Image alt text", () => {
-  211 |   test("no alt text issues on login page", async ({ page }) => {
-  212 |     await page.goto("/login")
-  213 | 
-  214 |     const imgs = page.locator("img")
-  215 |     const count = await imgs.count()
-  216 |     for (let i = 0; i < count; i++) {
-  217 |       await expect(imgs.nth(i)).toHaveAttribute("alt", /.*/)
-  218 |     }
-  219 |   })
-  220 | })
-  221 | 
-  222 | test.describe("Accessibility: Color contrast (visual checks)", () => {
-  223 |   test("text is visible in light mode", async ({ page }) => {
-  224 |     await page.addInitScript(() => {
-  225 |       localStorage.setItem("theme", "light")
-  226 |     })
-  227 |     await page.goto("/login")
-  228 | 
-  229 |     const heading = page.locator("h1")
-  230 |     await expect(heading).toBeVisible()
-  231 | 
-  232 |     const bodyBg = await page.evaluate(() =>
-  233 |       getComputedStyle(document.body).backgroundColor,
-  234 |     )
-  235 |     expect(bodyBg).not.toBe("transparent")
-  236 |     expect(bodyBg).not.toBe("rgb(0, 0, 0)")
-  237 |   })
-  238 | 
-  239 |   test("text is visible in dark mode", async ({ page }) => {
-  240 |     await page.addInitScript(() => {
-  241 |       localStorage.setItem("theme", "dark")
-  242 |     })
-  243 |     await page.goto("/login")
-  244 |     await page.waitForSelector("html.dark")
-  245 | 
-  246 |     const heading = page.locator("h1")
-  247 |     await expect(heading).toBeVisible()
-  248 |   })
-  249 | })
-  250 | 
-  251 | test.describe("Accessibility: POS page ARIA", () => {
-  252 |   test.beforeEach(async ({ page }) => {
-  253 |     await mockSession(page)
-  254 |     await page.route("**/api/pos/products*", (route) =>
-  255 |       route.fulfill({
-  256 |         status: 200,
-  257 |         contentType: "application/json",
-  258 |         body: JSON.stringify([
-  259 |           { id: "p1", nameAr: "منتج أ", name: "Product A", price: 25, stock: 100, barcode: "111111" },
-  260 |           { id: "p2", nameAr: "منتج ب", name: "Product B", price: 50, stock: 75, barcode: "222222" },
-  261 |         ]),
-  262 |       }),
-  263 |     )
-  264 |     await mockCategoriesApi(page)
-  265 |     await page.route("**/api/customers*", (route) =>
-  266 |       route.fulfill({
-  267 |         status: 200,
-  268 |         contentType: "application/json",
-  269 |         body: JSON.stringify([]),
-  270 |       }),
 ```

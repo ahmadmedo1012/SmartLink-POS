@@ -30,11 +30,11 @@ const slides = [
     gradientCSS: "linear-gradient(135deg, #0c0a00, #1a1200, #0c0a00)",
     title: "قنوات | Smart Link للأعمال",
     subtitle: "نظام متكامل لإدارة المبيعات والمخزون",
-    body: "منصة سحابية عربية متكاملة، تجمع كل أدوات إدارة الأعمال في مكان واحد — صُممت خصيصاً للشركات الصغيرة والمتوسطة في الأسواق العربية.",
+    body: "منصة سحابية عربية متكاملة، تجمع كل أدوات إدارة الأعمال في مكان واحد.",
     icon: (
-      <img src="/logo.png" alt="Smart Link" className="w-8 h-8" />
+      <img src="/logo-small.png" alt="Smart Link" className="w-8 h-8" />
     ),
-    highlights: ["مصممة خصيصاً للأسواق العربية", "واجهة عربية كاملة مع دعم RTL", "سحابية — اعمل من أي جهاز وفي أي وقت"],
+    highlights: ["مصممة خصيصاً للأسواق العربية", "واجهة عربية كاملة مع دعم الكتابة من اليمين", "سحابية — اعمل من أي جهاز وفي أي وقت"],
   },
   {
     id: "pos",
@@ -44,7 +44,7 @@ const slides = [
     bgTo: "#1a0a00",
     gradientCSS: "linear-gradient(135deg, #1a0a00, #2a1500, #1a0a00)",
     title: "نظام نقاط البيع",
-    subtitle: "POS متكامل وسريع",
+    subtitle: "متكامل وسريع",
     body: "واجهة بيع احترافية مع دعم الماسح الضوئي للباركود وإضافة المنتجات بسرعة.",
     icon: (
       <svg viewBox="0 0 64 64" fill="none" className="w-8 h-8">
@@ -54,7 +54,7 @@ const slides = [
         <circle cx="32" cy="38" r="3" fill="#f97316" />
       </svg>
     ),
-    highlights: ["مسح الباركود — إضافة فورية", "الفواتير النقدية والآجلة", "اختصارات ذكية: F1, F3, Escape"],
+    highlights: ["مسح الباركود — إضافة فورية", "الفواتير النقدية والآجلة", "اختصارات ذكية للوحة المفاتيح"],
   },
   {
     id: "inventory",
@@ -84,14 +84,14 @@ const slides = [
     gradientCSS: "linear-gradient(135deg, #0f001a, #1f002a, #0f001a)",
     title: "الفوترة الإلكترونية",
     subtitle: "فواتير احترافية في ثوانٍ",
-    body: "أنشئ فواتير احترافية، صدرها إلى PDF، وأرسلها لعملائك مباشرة.",
+    body: "أنشئ فواتير احترافية، صدرها و أرسلها لعملائك مباشرة.",
     icon: (
       <svg viewBox="0 0 64 64" fill="none" className="w-8 h-8">
         <rect x="14" y="8" width="36" height="48" rx="3" stroke="#8b5cf6" strokeWidth="2" fill="rgba(139,92,246,0.1)" />
         <path d="M22 24h20M22 32h20M22 40h12" stroke="#8b5cf6" strokeWidth="2" strokeLinecap="round" />
       </svg>
     ),
-    highlights: ["إنشاء فواتير بلمسة زر", "تصدير PDF للطباعة والإرسال", "إدارة المرتجعات والمبالغ المستردة"],
+    highlights: ["إنشاء فواتير بلمسة زر", "تصدير للطباعة والإرسال", "إدارة المرتجعات والمبالغ المستردة"],
   },
   {
     id: "analytics",
@@ -131,7 +131,7 @@ const slides = [
         <path d="M32 50c0-8 5-14 12-14" stroke="#f43f5e" strokeWidth="2" />
       </svg>
     ),
-    highlights: ["سجل كامل للعملاء", "إدارة الموردين", "صلاحيات متعددة (مدير، كاشير، محاسب)"],
+    highlights: ["سجل كامل للعملاء", "إدارة الموردين", "صلاحيات متعددة للمستخدمين"],
   },
   {
     id: "security",
@@ -149,14 +149,14 @@ const slides = [
         <path d="M24 32l6 6 10-12" stroke="#f59e0b" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
     ),
-    highlights: ["تشفير كامل وفق أعلى المعايير", "نسخ احتياطي تلقائي", "دعم فني متواصل — فريقنا هنا لخدمتك"],
+    highlights: ["تشفير كامل وفق أعلى المعايير", "نسخ احتياطي تلقائي", "دعم فني متواصل على مدار الساعة"],
   },
 ]
 
 /* -------------------------------------------------------------------------- */
 /*  Floating particles                                                        */
 /* -------------------------------------------------------------------------- */
-function Particles({ count = 15 }: { count?: number }) {
+function Particles({ count = 6 }: { count?: number }) {
   const dots = Array.from({ length: count }, (_, i) => ({
     id: i, x: Math.random() * 100, y: Math.random() * 100,
     s: 1 + Math.random() * 3, d: 4 + Math.random() * 6, dl: Math.random() * 4,
@@ -182,28 +182,6 @@ function Particles({ count = 15 }: { count?: number }) {
 }
 
 /* -------------------------------------------------------------------------- */
-/*  Expanding rings                                                           */
-/* -------------------------------------------------------------------------- */
-function PulseRings({ color }: { color: string }) {
-  return (
-    <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-      {[0, 1, 2].map((i) => (
-        <motion.div
-          key={i}
-          className="absolute rounded-full border"
-          style={{
-            width: 180, height: 180,
-            borderColor: `${color}30`,
-          }}
-          animate={{ scale: [1, 2 + i * 0.5, 1], opacity: [0.3, 0, 0.3] }}
-          transition={{ duration: 4, repeat: Infinity, delay: i * 1.3, ease: "easeOut" }}
-        />
-      ))}
-    </div>
-  )
-}
-
-/* -------------------------------------------------------------------------- */
 /*  Slide Content                                                             */
 /* -------------------------------------------------------------------------- */
 function SlideInner({ slide, idx }: { slide: typeof slides[0]; idx: number }) {
@@ -212,9 +190,8 @@ function SlideInner({ slide, idx }: { slide: typeof slides[0]; idx: number }) {
 
   return (
     <div className="absolute inset-0 flex flex-col items-center justify-center px-6 sm:px-10">
-      {/* Rings behind icon */}
+      {/* Icon spring-in */}
       <div className="relative mb-6 flex items-center justify-center">
-        <PulseRings color={slide.accentColor} />
         <motion.div
           initial={{ scale: 0, rotate: -30 }}
           animate={visible ? { scale: 1, rotate: 0 } : {}}
@@ -229,12 +206,13 @@ function SlideInner({ slide, idx }: { slide: typeof slides[0]; idx: number }) {
         </motion.div>
       </div>
 
-      {/* Title */}
+      {/* Title — ambery gold */}
       <motion.h2
         initial={{ opacity: 0, y: 20 }}
         animate={visible ? { opacity: 1, y: 0 } : {}}
         transition={{ duration: 0.5, delay: 0.15 }}
-        className="text-2xl sm:text-3xl font-extrabold text-white text-center mb-2 tracking-tight"
+        className="text-2xl sm:text-3xl font-extrabold text-center mb-2 tracking-tight"
+        style={{ color: "#fbbf24" }}
       >
         {slide.title}
       </motion.h2>
@@ -261,7 +239,7 @@ function SlideInner({ slide, idx }: { slide: typeof slides[0]; idx: number }) {
         {slide.body}
       </motion.p>
 
-      {/* Glass cards */}
+      {/* Glass cards — features in white */}
       <div className="w-full max-w-sm space-y-2" dir="rtl">
         {slide.highlights.map((h, i) => (
           <motion.div
@@ -272,7 +250,7 @@ function SlideInner({ slide, idx }: { slide: typeof slides[0]; idx: number }) {
           >
             <GlassCard className="flex items-center gap-3 px-4 py-3" color={`${slide.accentColor}08`}>
               <div className="w-2 h-2 rounded-full shrink-0" style={{ background: slide.accentColor }} />
-              <span className="text-sm text-gray-200 leading-relaxed">{h}</span>
+              <span className="text-sm text-white leading-relaxed">{h}</span>
             </GlassCard>
           </motion.div>
         ))}
@@ -325,21 +303,14 @@ export function BrandIntroFallback() {
 
   useEffect(() => {
     if (!auto) return
-    const t = setInterval(next, 5500)
+    const t = setInterval(next, 5000)
     return () => clearInterval(t)
   }, [auto, next])
 
   return (
     <div className="relative w-full h-full overflow-hidden cursor-default" style={{ background: slide.gradientCSS }}>
-      {/* Animated background glow */}
-      <motion.div
-        key={slide.id + "-bg"}
-        className="absolute inset-0"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        transition={{ duration: 1 }}
-      >
+      {/* Static background glow */}
+      <div className="absolute inset-0">
         <div
           className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full"
           style={{ background: `radial-gradient(circle, ${slide.accentColor}15 0%, transparent 60%)` }}
@@ -348,9 +319,9 @@ export function BrandIntroFallback() {
           className="absolute bottom-0 right-0 w-[300px] h-[300px] rounded-full"
           style={{ background: `radial-gradient(circle, ${slide.accentColor}08 0%, transparent 60%)` }}
         />
-      </motion.div>
+      </div>
 
-      <Particles />
+      <Particles count={6} />
 
       <AnimatePresence mode="wait">
         <motion.div
