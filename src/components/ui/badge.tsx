@@ -4,7 +4,7 @@ import { forwardRef } from "react"
 import { cn } from "@/lib/utils"
 
 const badgeVariants = cva(
-  "inline-flex items-center rounded-full font-medium",
+  "inline-flex items-center rounded-full font-semibold transition-colors select-none whitespace-nowrap ring-1 ring-inset ring-black/5 dark:ring-white/10",
   {
     variants: {
       variant: {
@@ -13,18 +13,18 @@ const badgeVariants = cva(
         secondary:
           "bg-secondary text-secondary-foreground border border-border",
         success:
-          "bg-primary-100 text-primary-700 dark:bg-primary-900/40 dark:text-primary-300 dark:border dark:border-primary-700/40",
+          "bg-emerald-50 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300",
         warning:
-          "bg-primary-200 text-primary-800 dark:bg-primary-800/40 dark:text-primary-200 dark:border dark:border-primary-600/40",
+          "bg-amber-50 text-amber-700 dark:bg-amber-900/30 dark:text-amber-300",
         danger:
-          "bg-destructive/15 text-destructive dark:bg-destructive/25 dark:text-destructive dark:border dark:border-destructive/40",
+          "bg-red-50 text-red-700 dark:bg-red-900/30 dark:text-red-300",
         outline:
           "bg-transparent text-muted-foreground border border-border",
       },
       size: {
-        sm: "text-[10px] px-1.5 py-0",
-        default: "text-xs px-2.5 py-0.5",
-        lg: "text-sm px-3 py-1",
+        sm: "px-2 py-0.5 text-[10px]",
+        default: "px-3 py-1 text-xs",
+        lg: "px-4 py-1.5 text-sm",
       },
     },
     defaultVariants: {

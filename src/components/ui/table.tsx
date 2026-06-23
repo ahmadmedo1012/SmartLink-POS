@@ -16,7 +16,7 @@ const TableHeader = forwardRef<HTMLTableSectionElement, React.ComponentProps<"th
   ({ className, ...props }, ref) => (
     <thead
       ref={ref}
-      className={cn("bg-secondary/50", className)}
+      className={cn("bg-muted/20 border-b border-border/30", className)}
       {...props}
     />
   ),
@@ -34,7 +34,7 @@ const TableFooter = forwardRef<HTMLTableSectionElement, React.ComponentProps<"tf
   ({ className, ...props }, ref) => (
     <tfoot
       ref={ref}
-      className={cn("bg-muted/50 font-medium", className)}
+      className={cn("bg-muted/50 font-medium border-t border-border/30", className)}
       {...props}
     />
   ),
@@ -46,7 +46,7 @@ const TableRow = forwardRef<HTMLTableRowElement, React.ComponentProps<"tr">>(
     <tr
       ref={ref}
       className={cn(
-        "border-b border-border/60 transition-colors duration-150 hover:bg-muted/50",
+        "border-b border-border/15 transition-colors duration-200 hover:bg-muted/30 even:bg-muted/10",
         className,
       )}
       {...props}
@@ -60,7 +60,7 @@ const TableHead = forwardRef<HTMLTableCellElement, React.ComponentProps<"th">>(
     <th
       ref={ref}
       className={cn(
-        "h-11 px-4 text-right align-middle font-semibold text-muted-foreground text-xs uppercase tracking-wider",
+        "h-12 px-5 py-3 text-right align-middle font-semibold text-muted-foreground/70 text-[11px] uppercase tracking-[0.08em]",
         className,
       )}
       {...props}
@@ -73,7 +73,7 @@ const TableCell = forwardRef<HTMLTableCellElement, React.ComponentProps<"td">>(
   ({ className, ...props }, ref) => (
     <td
       ref={ref}
-      className={cn("p-4 align-middle", className)}
+      className={cn("px-5 py-3.5 align-middle", className)}
       {...props}
     />
   ),
@@ -84,7 +84,7 @@ const TableCaption = forwardRef<HTMLTableCaptionElement, React.ComponentProps<"c
   ({ className, ...props }, ref) => (
     <caption
       ref={ref}
-      className={cn("text-xs text-muted-foreground mt-4", className)}
+      className={cn("text-xs text-muted-foreground mt-4 px-5", className)}
       {...props}
     />
   ),

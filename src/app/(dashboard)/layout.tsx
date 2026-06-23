@@ -28,8 +28,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         {/* Brand footer */}
         <footer className="border-t border-border px-6 py-3">
           <div className="flex items-center justify-between text-[11px] text-muted-foreground">
-            <span className="flex items-center gap-2"><img src="/logo.svg" alt="Smart Link" className="h-4 w-auto" />&copy; {new Date().getFullYear()} قنوات | Smart Link</span>
-            <span className="hidden sm:inline">نظام إدارة مبيعات ومخزون متكامل</span>
+            <span className="flex items-center gap-2"><img src="/logo.svg" alt="Smart Link" className="h-4 w-auto" />مدعوم من الربط الذكي</span>
+            <span className="hidden sm:inline">&copy; {new Date().getFullYear()} Smart Link</span>
           </div>
         </footer>
       </main>

@@ -35,6 +35,6 @@ test.describe("Launch Health Checks", () => {
   test("login page has brand header", async ({ page }) => {
     await page.goto(`${BASE}/login`)
     await expect(page.getByText("Smart Link للأعمال")).toBeVisible({ timeout: 10000 })
-    await expect(page.getByText("قنوات").first()).toBeVisible()
+    await expect(page.getByText("الربط الذكي").first()).toBeVisible()
   })
 })

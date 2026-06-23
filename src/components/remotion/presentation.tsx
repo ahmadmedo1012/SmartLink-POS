@@ -130,7 +130,7 @@ function BrandName() {
         translate: `0 ${y}px`,
       }}
     >
-      قنوات
+      الربط الذكي
     </h1>
   )
 }

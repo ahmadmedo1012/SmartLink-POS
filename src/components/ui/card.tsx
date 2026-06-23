@@ -8,7 +8,12 @@ const Card = React.forwardRef<HTMLDivElement, React.ComponentProps<"div">>(
       ref={ref}
       data-slot="card"
       className={cn(
-        "bg-card text-card-foreground rounded-[22px] border border-[#E0DCD7] shadow-card p-6 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-glow relative before:pointer-events-none before:absolute before:inset-0 before:rounded-[22px] before:shadow-[inset_0_1px_0_rgba(255,255,255,0.15)] dark:before:shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]",
+        "bg-card text-card-foreground rounded-[22px] border border-[#E0DCD7] shadow-card",
+        "p-6 transition-all duration-300 ease-out",
+        "hover:-translate-y-1 hover:shadow-xl hover:shadow-glow",
+        "relative before:pointer-events-none before:absolute before:inset-0",
+        "before:rounded-[22px] before:shadow-[inset_0_1px_0_rgba(255,255,255,0.15)]",
+        "dark:before:shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]",
         className
       )}
       {...props}

@@ -99,7 +99,7 @@ test.describe("Login page", () => {
   test("renders form with email, password, and submit button", async ({ page }) => {
     await page.goto("/login")
 
-    await expect(page.locator("h1")).toContainText("قنوات")
+    await expect(page.locator("h1")).toContainText("الربط الذكي")
     await expect(page.locator("#email")).toBeVisible()
     await expect(page.locator("#password")).toBeVisible()
     await expect(page.getByRole("button", { name: /تسجيل الدخول/i })).toBeVisible()

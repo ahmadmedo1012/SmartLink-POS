@@ -126,7 +126,7 @@ test.describe("Login flow", () => {
 
   test("login page shows brand heading", async ({ page }) => {
     await page.goto("/login")
-    await expect(page.locator("h1")).toContainText("قنوات")
+    await expect(page.locator("h1")).toContainText("الربط الذكي")
   })
 })
 

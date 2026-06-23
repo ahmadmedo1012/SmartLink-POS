@@ -20,7 +20,7 @@ const notoSansArabic = Noto_Sans_Arabic({
 })
 
 export const metadata: Metadata = {
-  title: "قنوات | Smart Link للأعمال",
+  title: "الربط الذكي | Smart Link للأعمال",
   description: "نظام إدارة مبيعات ومخزون متكامل من Smart Link — نقطة بيع، مخزون، فواتير، تقارير",
   icons: {
     icon: [
@@ -30,7 +30,7 @@ export const metadata: Metadata = {
     apple: "/apple-icon.png",
   },
   openGraph: {
-    title: "قنوات | Smart Link للأعمال",
+    title: "الربط الذكي | Smart Link للأعمال",
     description: "نظام إدارة مبيعات ومخزون متكامل",
     type: "website",
     images: [{ url: "/icon-512.png", width: 512, height: 512 }],

@@ -43,13 +43,13 @@ export default function LoginPage() {
             <img src="/logo.svg" alt="Smart Link" className="max-w-[200px] h-auto" />
           </div>
           <h1 className="text-[28px] font-bold text-gradient-amber leading-tight font-sans">
-            قنوات
+            الربط الذكي
           </h1>
           <p className="text-[13px] text-muted-foreground mt-1.5">
-            Smart Link للأعمال
+            نظام متكامل من Smart Link
           </p>
           <p className="text-[11px] text-muted-foreground/60 mt-2 leading-relaxed max-w-[260px] mx-auto">
-            نظام متكامل لإدارة المبيعات والمخزون ونقاط البيع
+            إدارة المبيعات والمخزون ونقاط البيع — منصة واحدة
           </p>
         </div>
 
@@ -132,7 +132,7 @@ export default function LoginPage() {
         {/* Footer */}
         <p className="text-center text-[11px] text-muted-foreground mt-8 flex items-center justify-center gap-1.5">
           <img src="/logo.svg" alt="Smart Link" className="h-3.5 w-auto inline-block" />
-          &copy; {new Date().getFullYear()} قنوات | Smart Link. جميع الحقوق محفوظة.
+          &copy; {new Date().getFullYear()} الربط الذكي | Smart Link. جميع الحقوق محفوظة.
         </p>
       </div>
     </div>

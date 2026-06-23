@@ -150,7 +150,7 @@ export function Sidebar() {
               <img src="/logo.svg" alt="Smart Link" className="h-7 w-auto" />
               <div className="flex flex-col">
                 <span className="font-bold text-lg text-gradient-amber leading-tight">
-                  قنوات
+                  الربط الذكي
                 </span>
                 <span className="text-[10px] text-muted-foreground leading-tight -mt-0.5">
                   Smart Link
@@ -226,7 +226,7 @@ export function Sidebar() {
                 className="flex flex-col"
               >
                 <span className="font-bold text-lg text-gradient-amber leading-tight">
-                  قنوات
+                  الربط الذكي
                 </span>
                 <span className="text-[10px] text-muted-foreground leading-tight -mt-0.5">
                   Smart Link

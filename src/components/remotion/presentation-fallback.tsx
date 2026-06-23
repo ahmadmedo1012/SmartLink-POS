@@ -28,7 +28,7 @@ const slides = [
     bgVia: "#1a1200",
     bgTo: "#0c0a00",
     gradientCSS: "linear-gradient(135deg, #0c0a00, #1a1200, #0c0a00)",
-    title: "قنوات | Smart Link للأعمال",
+    title: "الربط الذكي | Smart Link للأعمال",
     subtitle: "نظام متكامل لإدارة المبيعات والمخزون",
     body: "منصة سحابية عربية متكاملة، تجمع كل أدوات إدارة الأعمال في مكان واحد.",
     icon: (

@@ -71,6 +71,16 @@ function SkeletonBar() {
   return <div className="h-[250px] rounded-2xl shimmer" />
 }
 
+function SectionHeader({ label }: { label: string }) {
+  return (
+    <div className="flex items-center gap-2.5 mb-4">
+      <div className="h-5 w-[3px] rounded-full bg-gradient-to-b from-primary to-accent" />
+      <span className="text-xs font-semibold text-muted-foreground uppercase tracking-[0.08em]">{label}</span>
+      <div className="flex-1 h-px bg-gradient-to-r from-border to-transparent" />
+    </div>
+  )
+}
+
 export default function DashboardPage() {
   const router = useRouter()
   const { formatCurrency } = useCurrency()
@@ -160,7 +170,8 @@ export default function DashboardPage() {
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <button onClick={() => { refetch(); setLastUpdated(new Date().toLocaleTimeString("ar-SA", { hour: "2-digit", minute: "2-digit" })) }} className="text-xs text-muted-foreground hover:text-primary transition-colors px-2 py-1 rounded-md hover:bg-muted cursor-pointer focus-visible:outline-2 focus-visible:outline-[var(--ring)]/50 focus-visible:outline-offset-2">
+            <button onClick={() => { refetch(); setLastUpdated(new Date().toLocaleTimeString("ar-SA", { hour: "2-digit", minute: "2-digit" })) }}
+              className="text-xs text-muted-foreground hover:text-primary transition-colors px-3 py-1.5 rounded-lg hover:bg-muted cursor-pointer focus-visible:outline-2 focus-visible:outline-[var(--ring)]/50 focus-visible:outline-offset-2">
               تحديث
             </button>
           </div>
@@ -173,21 +184,18 @@ export default function DashboardPage() {
 
         {/* Quick Action Cards */}
         <motion.div variants={itemVariants}>
-          <div className="flex items-center gap-2 mb-3">
-            <div className="w-1 h-4 rounded-full bg-primary" />
-            <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">إجراءات سريعة</span>
-          </div>
+          <SectionHeader label="إجراءات سريعة" />
           <div className="grid grid-cols-3 gap-4">
           {quickActions.map((action) => (
             <motion.button
               key={action.href}
               onClick={() => router.push(action.href)}
-              className={`flex items-center gap-4 text-card-foreground border-border rounded-2xl px-5 py-4 text-right cursor-pointer border shadow-sm hover:shadow-md transition-all duration-200 focus-visible:outline-2 focus-visible:outline-[var(--ring)]/50 focus-visible:outline-offset-2 ${
+              className={`relative flex items-center gap-4 text-card-foreground border-border rounded-2xl px-5 py-4 text-right cursor-pointer border shadow-sm hover:shadow-md transition-all duration-200 active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-[var(--ring)]/50 focus-visible:outline-offset-2 before:pointer-events-none before:absolute before:inset-0 before:rounded-2xl before:shadow-[inset_0_1px_0_rgba(255,255,255,0.15)] ${
                 action.amber
                   ? "bg-gradient-to-br from-primary/10 to-accent/5 hover:from-primary/20 hover:to-accent/10 border-primary/20 dark:border-primary/50"
                   : "bg-muted/50 hover:bg-muted border-border"
               }`}
-              whileHover={{ y: -2 }}
+              whileHover={{ y: -2, scale: 1.01 }}
               transition={{ duration: 0.2, ease: "easeOut" as const }}
             >
               <div className={`w-11 h-11 rounded-lg flex items-center justify-center shrink-0 ${
@@ -208,30 +216,29 @@ export default function DashboardPage() {
 
         {/* KPI Stats */}
         <motion.div variants={itemVariants}>
-          <div className="flex items-center gap-2 mb-3">
-            <div className="w-1 h-4 rounded-full bg-primary" />
-            <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">المؤشرات الرئيسية</span>
-          </div>
+          <SectionHeader label="المؤشرات الرئيسية" />
           <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
           {stats.map((card) => {
             const raw = Number(dash?.[card.key as keyof typeof dash] ?? 0)
             return (
               <motion.div
                 key={card.key}
-                className="bg-card text-card-foreground border-border shadow-sm rounded-2xl p-4 cursor-default border hover:shadow-md transition-all duration-200"
+                className="relative bg-card text-card-foreground border-border shadow-sm rounded-2xl p-4 cursor-default border overflow-hidden transition-all duration-200 hover:shadow-lg hover:shadow-glow hover:scale-[1.02] active:scale-[0.98] before:pointer-events-none before:absolute before:inset-0 before:rounded-2xl before:shadow-[inset_0_1px_0_rgba(255,255,255,0.15)]"
                 whileHover={{ y: -2 }}
                 transition={{ duration: 0.2, ease: "easeOut" as const }}
               >
-                <div className="flex items-center justify-between mb-3">
-                  <span className="text-xs font-medium text-muted-foreground truncate">{card.title}</span>
-                  <div className={`w-9 h-9 rounded-lg flex items-center justify-center shrink-0 bg-gradient-to-br ${card.gradient} text-primary-foreground shadow-sm`}>
-                    <card.icon className="w-4 h-4" />
+                <div className="relative z-10">
+                  <div className="flex items-center justify-between mb-3">
+                    <span className="text-xs font-medium text-muted-foreground truncate">{card.title}</span>
+                    <div className={`w-9 h-9 rounded-lg flex items-center justify-center shrink-0 bg-gradient-to-br ${card.gradient} text-primary-foreground shadow-sm`}>
+                      <card.icon className="w-4 h-4" />
+                    </div>
                   </div>
+                  <div className="text-3xl font-bold text-foreground tracking-tight leading-none">
+                    {card.currency ? formatCurrency(raw) : <AnimatedCounter value={raw} />}
+                  </div>
+                  {card.sub && <div className="text-xs text-muted-foreground mt-2">{card.sub}</div>}
                 </div>
-                <div className="text-2xl font-bold text-foreground tracking-tight">
-                  {card.currency ? formatCurrency(raw) : <AnimatedCounter value={raw} />}
-                </div>
-                {card.sub && <div className="text-xs text-muted-foreground mt-1">{card.sub}</div>}
               </motion.div>
             )
           })}
@@ -240,13 +247,16 @@ export default function DashboardPage() {
 
           {/* Charts */}
           <motion.div variants={itemVariants}>
-          <div className="flex items-center gap-2 mb-3">
-            <div className="w-1 h-4 rounded-full bg-primary" />
-            <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">التحليلات</span>
-          </div>
+          <SectionHeader label="التحليلات" />
           <div className="grid gap-6 lg:grid-cols-3">
-          <Card className="lg:col-span-2 p-4 rounded-2xl shadow-sm hover:shadow-md transition-all duration-200">
-            <h3 className="text-sm font-semibold text-foreground mb-4">المبيعات اليومية</h3>
+          <Card className="lg:col-span-2 p-0 rounded-2xl shadow-sm hover:shadow-md transition-all duration-200 overflow-hidden">
+            <div className="p-4 pb-3 border-b border-border/50">
+              <h3 className="text-sm font-semibold text-foreground flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-primary" />
+                المبيعات اليومية
+              </h3>
+            </div>
+            <div className="p-4 bg-muted/20">
             {chartData.length === 0 ? (
               <div className="h-[250px] flex flex-col items-center justify-center text-muted-foreground">
                 <ShoppingCart className="w-10 h-10 mb-2 opacity-30" />
@@ -265,9 +275,16 @@ export default function DashboardPage() {
                 </BarChart>
               </ResponsiveContainer>
             )}
+            </div>
           </Card>
-          <Card className="p-4 rounded-2xl shadow-sm hover:shadow-md transition-all duration-200">
-            <h3 className="text-sm font-semibold text-foreground mb-4">توزيع الإيرادات</h3>
+          <Card className="p-0 rounded-2xl shadow-sm hover:shadow-md transition-all duration-200 overflow-hidden">
+            <div className="p-4 pb-3 border-b border-border/50">
+              <h3 className="text-sm font-semibold text-foreground flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-accent" />
+                توزيع الإيرادات
+              </h3>
+            </div>
+            <div className="p-4 bg-muted/20">
             {pieData.length === 0 ? (
               <div className="h-[250px] flex flex-col items-center justify-center text-muted-foreground">
                 <DollarSign className="w-10 h-10 mb-2 opacity-30" />
@@ -285,16 +302,14 @@ export default function DashboardPage() {
                 </PieChart>
               </ResponsiveContainer>
             )}
+            </div>
           </Card>
           </div>
         </motion.div>
 
       {/* Activity + Top Products */}
         <motion.div variants={itemVariants}>
-          <div className="flex items-center gap-2 mb-3">
-            <div className="w-1 h-4 rounded-full bg-primary" />
-            <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">النشاط</span>
-          </div>
+          <SectionHeader label="النشاط" />
         <motion.div variants={containerVariants} initial="hidden" whileInView="visible" viewport={{ once: true }} className="grid gap-6 lg:grid-cols-2">
           <motion.div variants={itemVariants}><ActivityFeed /></motion.div>
           <motion.div variants={itemVariants}><TopProducts /></motion.div>
@@ -303,21 +318,21 @@ export default function DashboardPage() {
 
       {/* Bottom 3-col: Recent Invoices + Quick Summary + Today Sales */}
         <motion.div variants={itemVariants}>
-          <div className="flex items-center gap-2 mb-3">
-            <div className="w-1 h-4 rounded-full bg-primary" />
-            <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">ملخص</span>
-          </div>
+          <SectionHeader label="ملخص" />
         <motion.div variants={containerVariants} initial="hidden" whileInView="visible" viewport={{ once: true }} className="grid gap-6 lg:grid-cols-3">
           <motion.div variants={itemVariants}>
-            <Card className="p-4 rounded-2xl shadow-sm hover:shadow-md transition-all duration-200">
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="text-sm font-semibold text-foreground">آخر الفواتير</h3>
-                <button onClick={() => router.push("/invoices")} className="text-xs text-primary hover:text-primary-hover hover:underline font-medium cursor-pointer focus-visible:outline-2 focus-visible:outline-[var(--ring)]/50 focus-visible:outline-offset-2 rounded-sm">عرض الكل</button>
+            <Card className="p-0 rounded-2xl shadow-sm hover:shadow-md transition-all duration-200 overflow-hidden">
+              <div className="p-4 pb-3 border-b border-border/50">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-sm font-semibold text-foreground">آخر الفواتير</h3>
+                  <button onClick={() => router.push("/invoices")} className="text-xs text-primary hover:text-primary-hover hover:underline font-medium cursor-pointer focus-visible:outline-2 focus-visible:outline-[var(--ring)]/50 focus-visible:outline-offset-2 rounded-sm">عرض الكل</button>
+                </div>
               </div>
+              <div className="p-4">
               {dash?.recentInvoices?.length ? (
                 <div className="space-y-1">
                   {dash.recentInvoices.slice(0, 5).map((inv: any) => (
-                    <div key={inv.id} tabIndex={0} role="button" onClick={() => router.push(`/invoices/${inv.id}`)} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); router.push(`/invoices/${inv.id}`); } }} className="flex items-center justify-between py-2.5 px-2 -mx-2 rounded-lg cursor-pointer transition-colors duration-200 ease-out hover:bg-muted focus-visible:outline-2 focus-visible:outline-[var(--ring)]/50 focus-visible:outline-offset-2">
+                    <div key={inv.id} tabIndex={0} role="button" onClick={() => router.push(`/invoices/${inv.id}`)} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); router.push(`/invoices/${inv.id}`); } }} className="flex items-center justify-between py-2.5 px-2 -mx-2 rounded-lg cursor-pointer transition-all duration-200 ease-out hover:bg-muted focus-visible:outline-2 focus-visible:outline-[var(--ring)]/50 focus-visible:outline-offset-2 active:scale-[0.98]">
                       <div className="flex items-center gap-3">
                         <div className="w-8 h-8 rounded-lg flex items-center justify-center bg-primary/10">
                           <ShoppingCart className="w-4 h-4 text-primary" />
@@ -339,14 +354,15 @@ export default function DashboardPage() {
                   <Button variant="secondary" size="sm" className="mt-3" onClick={() => router.push("/pos")}>فتح نقطة البيع</Button>
                 </div>
               )}
+              </div>
             </Card>
           </motion.div>
           <motion.div variants={itemVariants}>
-            <Card className="p-4 rounded-2xl shadow-sm hover:shadow-md transition-all duration-200">
+            <Card className="p-4 md:p-5 rounded-2xl shadow-sm hover:shadow-md transition-all duration-200">
               <h3 className="text-sm font-semibold text-foreground mb-4">ملخص سريع</h3>
               <div className="space-y-1.5">
                 {SummaryItems(dash, formatCurrency).map((s) => (
-                  <div key={s.label} className="flex items-center justify-between px-4 py-3 rounded-lg bg-muted">
+                  <div key={s.label} className="flex items-center justify-between px-4 py-3 rounded-lg bg-muted hover:bg-muted/80 transition-colors">
                     <div className="flex items-center gap-3">
                       <s.icon className="w-4 h-4" style={{ color: s.color }} />
                       <span className="text-sm text-foreground">{s.label}</span>
@@ -358,8 +374,11 @@ export default function DashboardPage() {
             </Card>
           </motion.div>
           <motion.div variants={itemVariants}>
-            <Card className="p-4 rounded-2xl shadow-sm hover:shadow-md transition-all duration-200">
-              <h3 className="text-sm font-semibold text-foreground mb-4">مبيعات اليوم</h3>
+            <Card className="p-4 md:p-5 rounded-2xl shadow-sm hover:shadow-md transition-all duration-200">
+              <h3 className="text-sm font-semibold text-foreground mb-4 flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-success" />
+                مبيعات اليوم
+              </h3>
               <div className="flex flex-col items-center justify-center py-6">
                 <div className="text-3xl font-bold text-foreground tracking-tight">{formatCurrency(Number(dash?.totalSales || 0))}</div>
                 <div className="flex items-center gap-1.5 mt-2 text-sm" style={{ color: "var(--success)" }}>

@@ -42,7 +42,7 @@ function Navbar() {
         <a href="/" className="flex items-center gap-2">
           <img src="/logo.svg" alt="Smart Link" className="h-9 w-auto" />
           <span className="text-lg font-bold text-foreground">
-            قنوات <span className="text-primary">|</span>{" "}
+            الربط الذكي <span className="text-primary">|</span>{" "}
             <span className="text-sm font-medium text-muted-foreground">Smart Link</span>
           </span>
         </a>
@@ -104,7 +104,7 @@ function Hero({ onShowIntro }: { onShowIntro?: () => void }) {
               transition={{ duration: 0.5, delay: 0.2 }}
             >
               <span className="mb-4 inline-block rounded-full border border-amber-200/60 bg-amber-50 px-4 py-1.5 text-xs font-semibold text-amber-700 dark:border-amber-800/40 dark:bg-amber-900/30 dark:text-amber-300">
-                نظام متكامل لإدارة الأعمال
+                مدعوم من الربط الذكي
               </span>
             </motion.div>
 
@@ -117,9 +117,9 @@ function Hero({ onShowIntro }: { onShowIntro?: () => void }) {
               <span className="text-gradient-amber">Smart Link للأعمال</span>
               <br />
               <span className="text-foreground">
-                نظام متكامل لإدارة
+                من Smart Link — حل متكامل
                 <br />
-                المبيعات والمخزون
+                لإدارة المبيعات والمخزون
               </span>
             </motion.h1>
 
@@ -181,6 +181,10 @@ function Hero({ onShowIntro }: { onShowIntro?: () => void }) {
               <span className="flex items-center gap-1.5">
                 <Zap className="h-4 w-4 text-success" />
                 دعم فني 24/7
+              </span>
+              <span className="flex items-center gap-1.5">
+                <CheckCircle2 className="h-4 w-4 text-success" />
+                منصة الربط الذكي
               </span>
             </motion.div>
           </div>

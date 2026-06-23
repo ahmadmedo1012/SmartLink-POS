@@ -1,4 +1,4 @@
-# Deploy Guide: Smart Link POS (قنوات)
+# Deploy Guide: Smart Link POS (الربط الذكي)
 
 ## Render (Production)
 

@@ -1,11 +1,11 @@
-# Product Strategy Review -- Smart Link POS (قنوات)
+# Product Strategy Review -- Smart Link POS (الربط الذكي)
 
 ## Product Strategy
 
 ### Core Value Proposition
 - **Arabic-first, all-in-one POS + business management**: POS terminal, inventory tracking, invoicing, expense tracking, and analytics in a single dashboard. No Western POS needing RTL workarounds.
 - **Self-hosted / private cloud** (inferred from next-auth + direct API routes): user owns their data.
-- **Brand differentiator**: Amber/gold (قنوات) color identity -- warm, trust-oriented, distinct from generic blue SaaS.
+- **Brand differentiator**: Amber/gold (الربط الذكي) color identity -- warm, trust-oriented, distinct from generic blue SaaS.
 
 ### Target User
 - **Primary**: Small-to-medium retail business owners in Libya and Arabic-speaking markets. Bilingual (Arabic UI, occasional English product names).
