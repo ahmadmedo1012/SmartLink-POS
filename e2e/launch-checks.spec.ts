@@ -9,11 +9,24 @@ const AUTH_SESSION = {
 }
 
 async function mockSession(page: import("@playwright/test").Page) {
+  // Set cookie for proxy.ts server-side check (no JWT validation — just bypasses redirect)
+  await page.context().addCookies([
+    { name: "next-auth.session-token", value: "mock-session-token", domain: "localhost", path: "/" },
+  ])
+  // Intercept client-side SessionProvider fetch
   await page.route("**/api/auth/session", (route) =>
     route.fulfill({
       status: 200,
       contentType: "application/json",
       body: JSON.stringify(AUTH_SESSION),
+    }),
+  )
+  // Intercept CSRF token fetch
+  await page.route("**/api/auth/csrf", (route) =>
+    route.fulfill({
+      status: 200,
+      contentType: "application/json",
+      body: JSON.stringify({ csrfToken: "mock-csrf-token" }),
     }),
   )
 }
@@ -80,21 +93,16 @@ test.describe("Dark mode", () => {
   })
 
   test("toggles to light mode via localStorage", async ({ page }) => {
-    await page.evaluate(() => {
-      localStorage.setItem("theme", "dark")
-    })
     await page.goto("/login", { waitUntil: "networkidle" })
 
-    // Confirm dark is applied
+    // Set dark, reload to let inline script apply class
+    await page.evaluate(() => localStorage.setItem("theme", "dark"))
+    await page.reload({ waitUntil: "networkidle" })
     await expect(page.locator("html")).toHaveClass(/dark/, { timeout: 5000 })
 
-    // Switch to light
-    await page.evaluate(() => {
-      localStorage.setItem("theme", "light")
-    })
+    // Switch to light, reload to let inline script remove class
+    await page.evaluate(() => localStorage.setItem("theme", "light"))
     await page.reload({ waitUntil: "networkidle" })
-
-    // Wait for ThemeInit to remove dark class
     await expect(page.locator("html")).not.toHaveClass(/dark/, { timeout: 5000 })
   })
 })

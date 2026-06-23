@@ -40,7 +40,7 @@ Call log:
           - generic [ref=e10]: مباشر
         - generic [ref=e13]:
           - paragraph [ref=e14]: نظرة عامة على أداء المنظومة
-          - generic [ref=e15]: · آخر تحديث ٠٧:٢٨ م
+          - generic [ref=e15]: · آخر تحديث ٠٧:٥٣ م
       - button "تحديث" [ref=e17] [cursor=pointer]
     - generic [ref=e19]:
       - img [ref=e21]
