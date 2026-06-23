@@ -16,6 +16,7 @@ import { Separator } from "@/components/ui/separator"
 import {
   Popover,
   PopoverTrigger,
+  PopoverPortal,
   PopoverPositioner,
   PopoverPopup,
 } from "@/components/ui/popover"
@@ -249,6 +250,7 @@ export function CartPanel({
                       <PopoverTrigger className="w-8 text-center text-sm font-bold text-foreground cursor-pointer select-none rounded-md border border-transparent hover:border-border hover:bg-muted transition-colors py-0.5 focus-visible:outline-2 focus-visible:outline-[var(--ring)]/50 focus-visible:outline-offset-2">
                         {item.quantity}
                       </PopoverTrigger>
+                      <PopoverPortal>
                       <PopoverPositioner align="center" side="top">
                         <PopoverPopup className="flex gap-1 p-1.5">
                           {[1, 5, 10].map((n) => (
@@ -262,6 +264,7 @@ export function CartPanel({
                           ))}
                         </PopoverPopup>
                       </PopoverPositioner>
+                    </PopoverPortal>
                     </Popover>
                     <button
                       onClick={() => updateQuantity(item.productId, -1)}

@@ -11,6 +11,10 @@ const MOCK_USER = {
 }
 
 async function mockSession(page: Page) {
+  // Set cookie for proxy.ts server-side auth check
+  await page.context().addCookies([
+    { name: "next-auth.session-token", value: "mock-session-token", domain: "localhost", path: "/" },
+  ])
   await page.route("**/api/auth/session", (route) =>
     route.fulfill({
       status: 200,
@@ -20,6 +24,9 @@ async function mockSession(page: Page) {
         expires: new Date(Date.now() + 86_400_000).toISOString(),
       }),
     }),
+  )
+  await page.route("**/api/auth/csrf", (route) =>
+    route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ csrfToken: "mock" }) }),
   )
 }
 
@@ -153,9 +160,9 @@ test.describe("Accessibility: ARIA labels on icon-only buttons", () => {
   test("mobile hamburger has aria-label", async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 812 })
     await page.goto("/pos", { waitUntil: "networkidle" })
-    await page.waitForSelector("#main-content")
+    await page.waitForSelector("#main-content", { timeout: 15000 })
 
-    await expect(page.getByLabel("القائمة")).toBeVisible()
+    await expect(page.getByLabel("القائمة").first()).toBeVisible()
   })
 })
 

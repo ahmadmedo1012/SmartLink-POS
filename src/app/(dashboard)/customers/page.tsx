@@ -1,42 +1,28 @@
 "use client"
 
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
-import { Users, Plus, Phone, Mail, MapPin, AlertCircle, User } from "lucide-react"
 import { useState } from "react"
-import toast from "react-hot-toast"
-import { motion } from "framer-motion"
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
+import { Users, Plus, Phone, Mail, MapPin, User, AlertCircle } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog"
-import { PageShell, PageHeader } from "@/components/page-shell"
+import { PageShell } from "@/components/page-shell"
+import { PageHeader } from "@/components/page-shell"
 import { EmptyState } from "@/components/empty-state"
-
-
-
-function getInitials(name: string) {
-  return name
-    ?.split(/\s+/)
-    .filter(Boolean)
-    .slice(0, 2)
-    .map((s) => s[0])
-    .join("")
-    .toUpperCase() || "?"
-}
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog"
+import { motion } from "framer-motion"
+import toast from "react-hot-toast"
 
 const containerVariants = {
-  hidden: {},
-  show: {
-    transition: { staggerChildren: 0.05 },
-  },
+  hidden: { opacity: 0 },
+  show: { opacity: 1, transition: { staggerChildren: 0.05 } },
 }
-
 const cardVariants = {
   hidden: { opacity: 0, y: 12 },
-  show: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.3, ease: [0.25, 0.8, 0.25, 1] as const },
-  },
+  show: { opacity: 1, y: 0, transition: { duration: 0.3, ease: [0.25, 0.8, 0.25, 1] as const } },
+}
+
+function getInitials(name?: string) {
+  return name ? name.charAt(0).toUpperCase() : "?"
 }
 
 export default function CustomersPage() {
@@ -45,10 +31,11 @@ export default function CustomersPage() {
   const initForm = { name: "", phone: "", email: "", address: "" }
   const [form, setForm] = useState(initForm)
 
-  const { data: customers, isLoading, error, refetch } = useQuery({
+  const { data: customersRes, isLoading, error, refetch } = useQuery({
     queryKey: ["customers"],
     queryFn: () => fetch("/api/customers").then((r) => r.json()),
   })
+  const customers: any[] = customersRes?.customers ?? []
 
   const saveMutation = useMutation({
     mutationFn: (data: any) =>
@@ -69,7 +56,7 @@ export default function CustomersPage() {
     <PageShell>
       <PageHeader
         title="العملاء"
-        subtitle={`${customers?.length || 0} عميل`}
+        subtitle={`${customers.length} عميل`}
         action={
           <Button onClick={() => setOpen(true)} className="bg-primary hover:bg-primary-hover text-primary-foreground shadow-sm shadow-primary/25">
             <Plus className="w-4 h-4 ml-1.5" />
@@ -85,33 +72,12 @@ export default function CustomersPage() {
             <DialogDescription>أدخل بيانات العميل</DialogDescription>
           </DialogHeader>
           <div className="space-y-3 py-2">
-            <Input
-              placeholder="الاسم"
-              value={form.name}
-              onChange={(e) => setForm({ ...form, name: e.target.value })}
-            />
-            <Input
-              placeholder="رقم الجوال"
-              value={form.phone}
-              onChange={(e) => setForm({ ...form, phone: e.target.value })}
-            />
-            <Input
-              placeholder="البريد الإلكتروني"
-              type="email"
-              value={form.email}
-              onChange={(e) => setForm({ ...form, email: e.target.value })}
-            />
-            <Input
-              placeholder="العنوان"
-              value={form.address}
-              onChange={(e) => setForm({ ...form, address: e.target.value })}
-            />
+            <Input placeholder="الاسم" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} />
+            <Input placeholder="رقم الجوال" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} />
+            <Input placeholder="البريد الإلكتروني" type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} />
+            <Input placeholder="العنوان" value={form.address} onChange={(e) => setForm({ ...form, address: e.target.value })} />
           </div>
-          <Button
-            onClick={() => saveMutation.mutate(form)}
-            disabled={saveMutation.isPending || !form.name}
-            className="w-full bg-primary hover:bg-primary-hover text-primary-foreground"
-          >
+          <Button onClick={() => saveMutation.mutate(form)} disabled={saveMutation.isPending || !form.name} className="w-full bg-primary hover:bg-primary-hover text-primary-foreground">
             {saveMutation.isPending ? "جاري..." : "حفظ"}
           </Button>
         </DialogContent>
@@ -129,7 +95,7 @@ export default function CustomersPage() {
             <div key={i} className="h-44 bg-card border border-border rounded-2xl animate-pulse" />
           ))}
         </div>
-      ) : customers?.length === 0 ? (
+      ) : customers.length === 0 ? (
         <EmptyState
           icon={Users}
           title="لا يوجد عملاء"
@@ -137,13 +103,8 @@ export default function CustomersPage() {
           action={{ label: "إضافة عميل", onClick: () => setOpen(true) }}
         />
       ) : (
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          animate="show"
-          className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
-        >
-          {customers?.map((c: any) => (
+        <motion.div variants={containerVariants} initial="hidden" animate="show" className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          {customers.map((c: any) => (
             <motion.div key={c.id} variants={cardVariants}>
               <div className="group bg-card text-card-foreground border border-border rounded-2xl p-5 shadow-sm hover:shadow-md transition-all duration-200 hover:border-primary/30 dark:hover:border-primary/50 cursor-default">
                 <div className="flex items-center gap-3 mb-4">
@@ -151,14 +112,13 @@ export default function CustomersPage() {
                     {getInitials(c.name)}
                   </div>
                   <div className="min-w-0">
-                    <div className="font-semibold text-sm truncate text-foreground">{c.name}</div>
+                    <div className="font-semibold text-sm truncate text-foreground">{c.name || c.email || "—"}</div>
                     <div className="text-xs text-muted-foreground flex items-center gap-1">
                       <User className="w-3 h-3" />
                       عميل
                     </div>
                   </div>
                 </div>
-
                 <div className="space-y-2.5 text-sm border-t border-border/50 pt-3">
                   {c.phone && (
                     <div className="flex items-center gap-2.5 text-muted-foreground group-hover:text-foreground/80 transition-colors duration-200">

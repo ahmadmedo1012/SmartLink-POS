@@ -34,16 +34,16 @@ export default function ReportsPage() {
   })
 
   // Group invoices by date, last 30 days for the chart
-  const chartData =
-    data
-      ?.reduce((acc: any[], inv: any) => {
-        const date = new Date(inv.createdAt).toLocaleDateString("ar-SA")
-        const existing = acc.find((d) => d.date === date)
-        if (existing) existing.total += Number(inv.grandTotal)
-        else acc.push({ date, total: Number(inv.grandTotal) })
-        return acc
-      }, [])
-      .slice(-30) || []
+  const invoices: any[] = data?.data ?? []
+  const chartData = invoices
+    .reduce((acc: any[], inv: any) => {
+      const date = new Date(inv.createdAt).toLocaleDateString("ar-SA")
+      const existing = acc.find((d) => d.date === date)
+      if (existing) existing.total += Number(inv.grandTotal)
+      else acc.push({ date, total: Number(inv.grandTotal) })
+      return acc
+    }, [])
+    .slice(-30)
 
   if (error)
     return (

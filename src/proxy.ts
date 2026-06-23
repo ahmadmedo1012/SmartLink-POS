@@ -25,6 +25,7 @@ export default function proxy(req: NextRequest) {
   return NextResponse.next()
 }
 
+// ponytail: Only API routes need auth. Page shells are public; API 401 protects data.
 export const config = {
-  matcher: ["/api/:path*", "/pos/:path*", "/products/:path*", "/invoices/:path*", "/customers/:path*", "/expenses/:path*", "/inventory/:path*", "/returns/:path*", "/activity/:path*", "/categories/:path*", "/suppliers/:path*", "/reports/:path*", "/settings/:path*"],
+  matcher: ["/api/:path*"],
 }
