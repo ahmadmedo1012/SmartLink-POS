@@ -25,16 +25,16 @@ const features = [
     title: "الفوترة الإلكترونية",
     description:
       "إنشاء فواتير احترافية، إرسالها للعملاء عبر البريد الإلكتروني أو WhatsApp، ومطابقتها مع الأنظمة المحاسبية.",
-    gradient: "from-violet-500 to-purple-500",
-    gradientBg: "from-violet-50 to-purple-50 dark:from-violet-900/20 dark:to-purple-900/20",
+    gradient: "from-amber-500 to-orange-500",
+    gradientBg: "from-amber-50 to-orange-50 dark:from-amber-900/20 dark:to-orange-900/20",
   },
   {
     icon: BarChart3,
     title: "التقارير والتحليلات",
     description:
       "لوحات تحليلية متقدمة، تقارير المبيعات والأرباح، تحليل أداء المنتجات، ورسوم بيانية تفاعلية تدعم قراراتك.",
-    gradient: "from-sky-500 to-blue-500",
-    gradientBg: "from-sky-50 to-blue-50 dark:from-sky-900/20 dark:to-blue-900/20",
+    gradient: "from-emerald-500 to-teal-500",
+    gradientBg: "from-emerald-50 to-teal-50 dark:from-emerald-900/20 dark:to-emerald-900/20",
   },
 ]
 

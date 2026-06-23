@@ -5,7 +5,7 @@ const BASE = "https://pos-m80w.onrender.com"
 test.describe("Launch Health Checks", () => {
   test("homepage loads with landing", async ({ page }) => {
     await page.goto(BASE)
-    await expect(page.getByText("Smart Link للأعمال")).toBeVisible({ timeout: 15000 })
+    await expect(page.getByRole("heading", { name: /Smart Link/ })).toBeVisible({ timeout: 15000 })
   })
 
   test("login page loads correctly", async ({ page }) => {
@@ -34,7 +34,7 @@ test.describe("Launch Health Checks", () => {
 
   test("login page has brand header", async ({ page }) => {
     await page.goto(`${BASE}/login`)
-    await expect(page.getByText("Smart Link للأعمال")).toBeVisible({ timeout: 10000 })
-    await expect(page.getByText("الربط الذكي").first()).toBeVisible()
+    await expect(page.getByRole("heading", { name: /الربط الذكي/ })).toBeVisible({ timeout: 10000 })
+    await expect(page.getByText("Smart Link للأعمال").first()).toBeVisible()
   })
 })
