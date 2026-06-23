@@ -134,7 +134,7 @@ test.describe("Homepage (landing page)", () => {
     const ctx = await browser.newContext({ storageState: undefined })
     const page = await ctx.newPage()
     await page.goto("/", { waitUntil: "networkidle" })
-    await expect(page.getByText("ابدأ الآن مجاناً")).toBeVisible()
+    await expect(page.getByRole("link", { name: /ابدأ الآن مجاناً/ }).first()).toBeVisible()
   })
 })
 
