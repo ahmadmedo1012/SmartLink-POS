@@ -32,13 +32,13 @@ export default function LoginPage() {
   return (
     <div id="main-content" className="min-h-screen flex items-center justify-center bg-background p-4 relative overflow-hidden">
       {/* Subtle brand decoration */}
-      <div className="pointer-events-none absolute -top-40 right-1/2 h-[500px] w-[500px] translate-x-1/2 rounded-full bg-gradient-to-br from-primary/8 via-accent/5 to-transparent blur-3xl dark:from-primary/10 dark:via-accent/5" />
-      <div className="pointer-events-none absolute -bottom-40 left-1/2 h-[300px] w-[300px] -translate-x-1/2 rounded-full bg-gradient-to-tl from-primary/5 to-transparent blur-3xl dark:from-primary/8" />
+      <div className="pointer-events-none absolute -top-40 right-1/2 h-[350px] w-[350px] translate-x-1/2 rounded-full bg-gradient-to-br from-primary/8 via-accent/5 to-transparent blur-2xl dark:from-primary/10 dark:via-accent/5" />
+      <div className="pointer-events-none absolute -bottom-40 left-1/2 h-[210px] w-[210px] -translate-x-1/2 rounded-full bg-gradient-to-tl from-primary/5 to-transparent blur-2xl dark:from-primary/8" />
       {/* Grid pattern overlay */}
       <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(rgba(217,119,6,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(217,119,6,0.03)_1px,transparent_1px)] bg-[size:40px_40px] dark:bg-[linear-gradient(rgba(245,158,11,0.04)_1px,transparent_1px),linear-gradient(90deg,rgba(245,158,11,0.04)_1px,transparent_1px)]" />
-      <div className="w-full max-w-[380px] relative">
+      <div className="w-full max-w-[380px] relative z-10">
         {/* Brand Header */}
-        <div className="text-center mb-9">
+        <div className="text-center mb-8">
           <div className="mx-auto mb-5 w-auto flex items-center justify-center">
             <img src="/logo.svg" alt="Smart Link" className="max-w-[200px] h-auto" />
           </div>
@@ -130,7 +130,7 @@ export default function LoginPage() {
         </Card>
 
         {/* Footer */}
-        <p className="text-center text-[11px] text-muted-foreground mt-8 flex items-center justify-center gap-1.5">
+        <p className="text-center text-[11px] text-muted-foreground mt-6 flex items-center justify-center gap-1.5">
           <img src="/logo.svg" alt="Smart Link" className="h-3.5 w-auto inline-block" />
           &copy; {new Date().getFullYear()} الربط الذكي | Smart Link. جميع الحقوق محفوظة.
         </p>

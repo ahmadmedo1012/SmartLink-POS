@@ -33,7 +33,7 @@ function DropdownMenuContent({
         <Menu.Popup
           data-slot="dropdown-menu-content"
           className={cn(
-            "bg-popover text-popover-foreground rounded-[17px] shadow-modal py-1.5 min-w-[220px] z-50 border border-border",
+            "bg-popover text-popover-foreground rounded-md shadow-modal py-1.5 min-w-[220px] z-50 border border-border",
             className,
           )}
           {...props}
@@ -65,7 +65,7 @@ function DropdownMenuItem({ className, ...props }: Menu.Item.Props) {
     <Menu.Item
       data-slot="dropdown-menu-item"
       className={cn(
-        "px-3 py-2.5 text-sm cursor-pointer flex items-center gap-2.5 rounded-lg mx-1.5",
+        "px-3 py-2.5 text-sm cursor-pointer flex items-center gap-2.5 rounded-sm mx-1.5",
         "hover:bg-muted transition-colors outline-none",
         "data-disabled:pointer-events-none data-disabled:opacity-50",
         className,
@@ -80,7 +80,7 @@ function DropdownMenuCheckboxItem({ className, ...props }: Menu.CheckboxItem.Pro
     <Menu.CheckboxItem
       data-slot="dropdown-menu-checkbox-item"
       className={cn(
-        "px-3 py-2.5 text-sm cursor-pointer flex items-center gap-2.5 rounded-lg mx-1.5",
+        "px-3 py-2.5 text-sm cursor-pointer flex items-center gap-2.5 rounded-sm mx-1.5",
         "hover:bg-muted transition-colors outline-none",
         "data-disabled:pointer-events-none data-disabled:opacity-50",
         className,
@@ -99,7 +99,7 @@ function DropdownMenuRadioItem({ className, ...props }: Menu.RadioItem.Props) {
     <Menu.RadioItem
       data-slot="dropdown-menu-radio-item"
       className={cn(
-        "px-3 py-2.5 text-sm cursor-pointer flex items-center gap-2.5 rounded-lg mx-1.5",
+        "px-3 py-2.5 text-sm cursor-pointer flex items-center gap-2.5 rounded-sm mx-1.5",
         "hover:bg-muted transition-colors outline-none",
         "data-disabled:pointer-events-none data-disabled:opacity-50",
         className,
@@ -148,7 +148,7 @@ function DropdownMenuSubTrigger({ className, children, ...props }: Menu.SubmenuT
     <Menu.SubmenuTrigger
       data-slot="dropdown-menu-sub-trigger"
       className={cn(
-        "px-3 py-2.5 text-sm cursor-pointer flex items-center gap-2.5 rounded-lg mx-1.5",
+        "px-3 py-2.5 text-sm cursor-pointer flex items-center gap-2.5 rounded-sm mx-1.5",
         "hover:bg-muted transition-colors outline-none",
         "data-disabled:pointer-events-none data-disabled:opacity-50",
         className,
@@ -190,7 +190,7 @@ function DropdownMenuSubContent({
         <Menu.Popup
           data-slot="dropdown-menu-sub-content"
           className={cn(
-            "bg-popover text-popover-foreground rounded-[17px] shadow-modal py-1.5 min-w-[220px] z-50 border border-border",
+            "bg-popover text-popover-foreground rounded-md shadow-modal py-1.5 min-w-[220px] z-50 border border-border",
             className,
           )}
           {...props}

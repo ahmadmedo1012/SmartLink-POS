@@ -73,7 +73,7 @@ export function ProductGrid({
   formatCurrency,
 }: ProductGridProps) {
   return (
-    <div className="flex-1 flex flex-col min-w-0 p-5 overflow-auto">
+    <div className="flex-1 flex flex-col min-w-0 overflow-auto">
       {/* ---- Filters ---- */}
       <div className="flex items-center gap-3 mb-5">
         <div className="relative flex-1 max-w-xs">

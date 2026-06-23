@@ -7,7 +7,7 @@ const Input = forwardRef<HTMLInputElement, InputHTMLAttributes<HTMLInputElement>
       <input
         ref={ref}
         className={cn(
-          "bg-background text-foreground rounded-[12px] px-4 py-2.5 text-sm border border-input transition-colors duration-200",
+          "bg-background text-foreground rounded-sm h-11 px-4 text-sm border border-input transition-colors duration-200",
           "file:font-medium file:text-foreground",
           "placeholder:text-muted-foreground/50",
           "focus-visible:border-primary focus-visible:ring-[3px] focus-visible:ring-primary/35",

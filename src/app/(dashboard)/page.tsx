@@ -136,10 +136,10 @@ export default function DashboardPage() {
               <div className="h-4 w-48 rounded mt-2 shimmer" />
             </div>
           </div>
-          <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 min-w-0">
             {[1,2,3,4].map(n => <SkeletonCard key={n} />)}
           </div>
-          <div className="grid gap-6 lg:grid-cols-3">
+          <div className="grid gap-6 lg:grid-cols-3 min-w-0">
             <div className="lg:col-span-2"><SkeletonBar /></div>
             <SkeletonBar />
           </div>
@@ -185,12 +185,12 @@ export default function DashboardPage() {
         {/* Quick Action Cards */}
         <motion.div variants={itemVariants}>
           <SectionHeader label="إجراءات سريعة" />
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid grid-cols-3 gap-4 min-w-0">
           {quickActions.map((action) => (
             <motion.button
               key={action.href}
               onClick={() => router.push(action.href)}
-              className={`relative flex items-center gap-4 text-card-foreground border-border rounded-2xl px-5 py-4 text-right cursor-pointer border shadow-sm hover:shadow-md transition-all duration-200 active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-[var(--ring)]/50 focus-visible:outline-offset-2 before:pointer-events-none before:absolute before:inset-0 before:rounded-2xl before:shadow-[inset_0_1px_0_rgba(255,255,255,0.15)] ${
+              className={`relative flex items-center gap-4 text-card-foreground border-border rounded-2xl px-5 py-4 text-right cursor-pointer border shadow-sm hover:shadow-md transition-all duration-200 active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-[var(--ring)]/50 focus-visible:outline-offset-2 before:pointer-events-none before:absolute before:inset-0 before:rounded-2xl before:shadow-[inset_0_1px_0_rgba(255,255,255,0.15)] min-h-[80px] ${
                 action.amber
                   ? "bg-gradient-to-br from-primary/10 to-accent/5 hover:from-primary/20 hover:to-accent/10 border-primary/20 dark:border-primary/50"
                   : "bg-muted/50 hover:bg-muted border-border"
@@ -217,7 +217,7 @@ export default function DashboardPage() {
         {/* KPI Stats */}
         <motion.div variants={itemVariants}>
           <SectionHeader label="المؤشرات الرئيسية" />
-          <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 min-w-0">
           {stats.map((card) => {
             const raw = Number(dash?.[card.key as keyof typeof dash] ?? 0)
             return (
@@ -248,7 +248,7 @@ export default function DashboardPage() {
           {/* Charts */}
           <motion.div variants={itemVariants}>
           <SectionHeader label="التحليلات" />
-          <div className="grid gap-6 lg:grid-cols-3">
+          <div className="grid gap-6 lg:grid-cols-3 min-w-0">
           <Card className="lg:col-span-2 p-0 rounded-2xl shadow-sm hover:shadow-md transition-all duration-200 overflow-hidden">
             <div className="p-4 pb-3 border-b border-border/50">
               <h3 className="text-sm font-semibold text-foreground flex items-center gap-2">
@@ -256,7 +256,7 @@ export default function DashboardPage() {
                 المبيعات اليومية
               </h3>
             </div>
-            <div className="p-4 bg-muted/20">
+            <div className="p-4 bg-muted/20 overflow-hidden">
             {chartData.length === 0 ? (
               <div className="h-[250px] flex flex-col items-center justify-center text-muted-foreground">
                 <ShoppingCart className="w-10 h-10 mb-2 opacity-30" />
@@ -277,14 +277,14 @@ export default function DashboardPage() {
             )}
             </div>
           </Card>
-          <Card className="p-0 rounded-2xl shadow-sm hover:shadow-md transition-all duration-200 overflow-hidden">
+          <Card className="p-0 rounded-2xl shadow-sm hover:shadow-md transition-all duration-200 overflow-hidden min-w-0">
             <div className="p-4 pb-3 border-b border-border/50">
               <h3 className="text-sm font-semibold text-foreground flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-accent" />
                 توزيع الإيرادات
               </h3>
             </div>
-            <div className="p-4 bg-muted/20">
+            <div className="p-4 bg-muted/20 overflow-hidden">
             {pieData.length === 0 ? (
               <div className="h-[250px] flex flex-col items-center justify-center text-muted-foreground">
                 <DollarSign className="w-10 h-10 mb-2 opacity-30" />
@@ -310,7 +310,7 @@ export default function DashboardPage() {
       {/* Activity + Top Products */}
         <motion.div variants={itemVariants}>
           <SectionHeader label="النشاط" />
-        <motion.div variants={containerVariants} initial="hidden" whileInView="visible" viewport={{ once: true }} className="grid gap-6 lg:grid-cols-2">
+        <motion.div variants={containerVariants} initial="hidden" whileInView="visible" viewport={{ once: true }} className="grid gap-6 lg:grid-cols-2 min-w-0">
           <motion.div variants={itemVariants}><ActivityFeed /></motion.div>
           <motion.div variants={itemVariants}><TopProducts /></motion.div>
         </motion.div>
@@ -319,7 +319,7 @@ export default function DashboardPage() {
       {/* Bottom 3-col: Recent Invoices + Quick Summary + Today Sales */}
         <motion.div variants={itemVariants}>
           <SectionHeader label="ملخص" />
-        <motion.div variants={containerVariants} initial="hidden" whileInView="visible" viewport={{ once: true }} className="grid gap-6 lg:grid-cols-3">
+        <motion.div variants={containerVariants} initial="hidden" whileInView="visible" viewport={{ once: true }} className="grid gap-6 lg:grid-cols-3 min-w-0">
           <motion.div variants={itemVariants}>
             <Card className="p-0 rounded-2xl shadow-sm hover:shadow-md transition-all duration-200 overflow-hidden">
               <div className="p-4 pb-3 border-b border-border/50">

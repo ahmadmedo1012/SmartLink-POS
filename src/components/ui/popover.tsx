@@ -39,7 +39,7 @@ function PopoverPopup({
       data-slot="popover-popup"
       className={cn(
         "bg-popover text-popover-foreground",
-        "rounded-[12px] shadow-modal border border-border p-2",
+        "rounded-sm shadow-modal border border-border p-2",
         "min-w-[120px]",
         "data-[open]:animate-scale-in",
         className,

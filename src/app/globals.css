@@ -8,6 +8,7 @@
   --font-body: 'Noto Sans Arabic', system-ui, sans-serif;
   --font-mono: 'SF Mono', 'Cascadia Code', monospace;
   --color-background: var(--background);
+  --color-page-background: var(--page-background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
   --color-card-foreground: var(--card-foreground);
@@ -34,6 +35,8 @@
   --radius-md: 17px;
   --radius-lg: 22px;
   --radius-xl: 42px;
+  /* Radius tokens: sm=12px (small UI), md=17px (cards/inputs),
+     lg=22px (dialogs/modals), xl=42px (hero sections/banners) */
   --shadow-card: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.1) 0px 1px 2px -1px;
   --shadow-lg: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.1) 0px 4px 6px -4px;
   --shadow-glow: oklab(0.620004 0.0802886 0.114688 / 0.25) 0px 10px 15px -3px, oklab(0.620004 0.0802886 0.114688 / 0.25) 0px 4px 6px -4px;
