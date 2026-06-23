@@ -187,6 +187,38 @@ export default function DashboardPage() {
           <LowStockBanner />
         </motion.div>
 
+        {/* Welcome banner for new users */}
+        {(!dash || (dash.invoiceCount === 0 && dash.productCount === 0 && dash.customerCount === 0)) && (
+          <motion.div variants={itemVariants} className="bg-gradient-to-r from-primary/5 via-accent/5 to-primary/5 border border-primary/20 rounded-2xl p-5">
+            <div className="flex items-start gap-4">
+              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center shrink-0 shadow-md">
+                <Package className="w-6 h-6 text-white" />
+              </div>
+              <div className="flex-1">
+                <h2 className="text-lg font-bold text-foreground">مرحباً بك في الربط الذكي!</h2>
+                <p className="text-sm text-muted-foreground mt-1 leading-relaxed">
+                  ابدأ بإضافة منتجاتك الأولى، ثم أنشئ فاتورة بيع. يمكنك أيضاً تصفح
+                  لوحة التحكم والتعرف على المؤشرات والتقارير.
+                </p>
+                <div className="flex flex-wrap gap-3 mt-4">
+                  <a href="/products" className="inline-flex h-9 items-center gap-1.5 rounded-lg bg-primary px-4 text-xs font-semibold text-primary-foreground hover:bg-primary-hover transition-colors shadow-sm cursor-pointer">
+                    <Package className="w-3.5 h-3.5" />
+                    إضافة منتجات
+                  </a>
+                  <a href="/pos" className="inline-flex h-9 items-center gap-1.5 rounded-lg bg-white border border-border px-4 text-xs font-semibold text-foreground hover:bg-muted transition-colors shadow-sm cursor-pointer">
+                    <ShoppingCart className="w-3.5 h-3.5" />
+                    تجربة نقطة البيع
+                  </a>
+                  <a href="/customers" className="inline-flex h-9 items-center gap-1.5 rounded-lg bg-white border border-border px-4 text-xs font-semibold text-foreground hover:bg-muted transition-colors shadow-sm cursor-pointer">
+                    <Users className="w-3.5 h-3.5" />
+                    إضافة عملاء
+                  </a>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        )}
+
         {/* Quick Action Cards */}
         <motion.div variants={itemVariants}>
           <SectionHeader label="إجراءات سريعة" />

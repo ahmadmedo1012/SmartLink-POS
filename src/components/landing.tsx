@@ -8,6 +8,7 @@ import { PremiumWalkthrough } from "@/components/remotion"
 
 const Features = lazy(() => import("@/components/landing/features"))
 const Stats = lazy(() => import("@/components/landing/stats"))
+const CtaSection = lazy(() => import("@/components/landing/cta-section"))
 const Footer = lazy(() => import("@/components/landing/footer"))
 
 function SectionFallback() {
@@ -60,6 +61,12 @@ function Navbar() {
             className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
           >
             إحصائيات
+          </a>
+          <a
+            href="#cta"
+            className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+          >
+            الخطط والأسعار
           </a>
           <a
             href="/login"
@@ -259,6 +266,9 @@ export function LandingPage() {
       </Suspense>
       <Suspense fallback={<SectionFallback />}>
         <Stats />
+      </Suspense>
+      <Suspense fallback={<SectionFallback />}>
+        <CtaSection />
       </Suspense>
       <Suspense fallback={<SectionFallback />}>
         <Footer />
