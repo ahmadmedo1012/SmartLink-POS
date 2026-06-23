@@ -7,7 +7,7 @@ export default function Footer() {
         <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
           <div className="sm:col-span-2 lg:col-span-2">
             <a href="/" className="flex items-center gap-2">
-              <img src="/logo.svg" alt="Smart Link" className="h-8 w-auto" />
+              <img src="/logo.png" alt="Smart Link" className="h-8 w-auto" />
               <span className="text-base font-bold text-foreground">
                 الربط الذكي <span className="text-primary">|</span> Smart Link
               </span>
@@ -55,14 +55,14 @@ export default function Footer() {
         {/* Attribution badge */}
         <div className="mt-8 flex justify-center">
           <span className="inline-flex items-center gap-1.5 rounded-full border border-border bg-muted/40 px-3.5 py-1 text-[11px] text-muted-foreground">
-            <img src="/logo.svg" alt="Smart Link" className="h-3.5 w-auto" />
+            <img src="/logo.png" alt="Smart Link" className="h-3.5 w-auto" />
             مدعوم من الربط الذكي
           </span>
         </div>
 
         <div className="mt-8 flex flex-col items-center justify-between gap-4 border-t border-border pt-6 sm:flex-row">
           <p className="text-xs text-muted-foreground flex items-center gap-1.5">
-            <img src="/logo.svg" alt="Smart Link" className="h-3.5 w-auto inline-block" />
+            <img src="/logo.png" alt="Smart Link" className="h-3.5 w-auto inline-block" />
             &copy; {new Date().getFullYear()} الربط الذكي | Smart Link للأعمال. جميع الحقوق محفوظة.
           </p>
           <div className="flex gap-4 text-xs text-muted-foreground">

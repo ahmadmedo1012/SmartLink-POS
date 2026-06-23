@@ -24,8 +24,7 @@ export const metadata: Metadata = {
   description: "نظام إدارة مبيعات ومخزون متكامل من Smart Link — نقطة بيع، مخزون، فواتير، تقارير",
   icons: {
     icon: [
-      { url: "/favicon.ico", sizes: "32x32" },
-      { url: "/logo.svg", type: "image/svg+xml" },
+      { url: "/logo.png", sizes: "32x32" },
     ],
     apple: "/apple-icon.png",
   },

@@ -147,7 +147,7 @@ export function Sidebar() {
           >
             {/* Logo */}
             <div className="flex items-center gap-2.5 px-5 h-16 border-b border-sidebar-border shrink-0">
-              <img src="/logo.svg" alt="Smart Link" className="h-7 w-auto" />
+              <img src="/logo.png" alt="Smart Link" className="h-7 w-auto" />
               <div className="flex flex-col">
                 <span className="font-bold text-lg text-gradient-amber leading-tight">
                   الربط الذكي
@@ -217,7 +217,7 @@ export function Sidebar() {
         {/* Logo */}
         <div className="flex items-center h-16 px-5 border-b border-sidebar-border shrink-0">
           <motion.div layout className="flex items-center gap-2.5 w-full" transition={{ duration: 0.3, ease: "easeInOut" }}>
-            <img src="/logo.svg" alt="Smart Link" className={cn("w-auto", collapsed ? "h-7" : "h-7")} />
+            <img src="/logo.png" alt="Smart Link" className={cn("w-auto", collapsed ? "h-7" : "h-7")} />
             {!collapsed && (
               <motion.div
                 initial={{ opacity: 0 }}
@@ -243,7 +243,7 @@ export function Sidebar() {
         {collapsed && (
           <div className="px-3 pb-2 shrink-0">
             <div className="flex items-center justify-center w-full py-2 rounded-md bg-gradient-to-br from-primary/5 to-accent/5 border border-sidebar-border/50">
-              <img src="/logo.svg" alt="Smart Link" className="h-5 w-auto" />
+              <img src="/logo.png" alt="Smart Link" className="h-5 w-auto" />
             </div>
           </div>
         )}
