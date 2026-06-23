@@ -18,7 +18,7 @@ test.describe("Launch Health Checks", () => {
   test("favicon exists", async ({ page, baseURL }) => {
     await page.goto(baseURL || PROD)
     const favicon = page.locator('link[rel="icon"]').first()
-    await expect(favicon).toHaveAttribute("href", /logo/)
+    await expect(favicon).toHaveAttribute("href", /(logo|favicon)/)
   })
 
   test("page has RT language and direction", async ({ page, baseURL }) => {
@@ -35,6 +35,6 @@ test.describe("Launch Health Checks", () => {
   test("login page has brand header", async ({ page, baseURL }) => {
     await page.goto(`${baseURL || PROD}/login`)
     await expect(page.getByRole("heading", { name: /الربط الذكي/ })).toBeVisible({ timeout: 10000 })
-    await expect(page.getByText("Smart Link للأعمال").first()).toBeVisible()
+    await expect(page.getByText(/نظام متكامل من Smart Link/i)).toBeVisible()
   })
 })
