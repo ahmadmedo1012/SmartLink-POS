@@ -77,6 +77,7 @@ export async function POST(req: NextRequest) {
     if (error?.code === "P2025") {
       return Response.json({ error: "One or more products not found" }, { status: 404 })
     }
-    return Response.json({ error: error?.message || "Failed to create return" }, { status: 500 })
+    console.error("Failed to create return:", error)
+    return Response.json({ error: "Failed to create return" }, { status: 500 })
   }
 }

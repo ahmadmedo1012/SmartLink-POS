@@ -1,7 +1,12 @@
 import { prisma } from "@/lib/prisma"
+import { auth } from "@/lib/auth"
 import bcrypt from "bcryptjs"
 
 export async function POST() {
+  const session = await auth()
+  if (!session?.user || (session.user as any).role !== "admin") {
+    return Response.json({ error: "Forbidden — admin only" }, { status: 403 })
+  }
   const hash = await bcrypt.hash("admin123", 10)
   const admin = await prisma.user.upsert({
     where: { email: "admin@pos.com" },

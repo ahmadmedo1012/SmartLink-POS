@@ -1,5 +1,34 @@
 import { prisma } from "@/lib/prisma"
 import { NextRequest } from "next/server"
+import { z } from "zod"
+
+const createProductSchema = z.object({
+  name: z.string().min(1, "Name is required").max(200),
+  nameAr: z.string().max(200).optional(),
+  barcode: z.string().max(100).optional(),
+  description: z.string().optional(),
+  imageUrl: z.string().max(500).optional(),
+  price: z.number().positive("Price must be positive"),
+  cost: z.number().nonnegative("Cost must not be negative").optional(),
+  stock: z.number().int("Stock must be an integer").nonnegative("Stock must not be negative").optional(),
+  minStock: z.number().int("Min stock must be an integer").nonnegative("Min stock must not be negative").optional(),
+  categoryId: z.string().optional(),
+  isActive: z.boolean().optional(),
+})
+
+const updateProductSchema = z.object({
+  name: z.string().min(1, "Name is required").max(200).optional(),
+  nameAr: z.string().max(200).optional(),
+  barcode: z.string().max(100).optional(),
+  description: z.string().optional(),
+  imageUrl: z.string().max(500).optional(),
+  price: z.number().positive("Price must be positive").optional(),
+  cost: z.number().nonnegative("Cost must not be negative").optional(),
+  stock: z.number().int("Stock must be an integer").nonnegative("Stock must not be negative").optional(),
+  minStock: z.number().int("Min stock must be an integer").nonnegative("Min stock must not be negative").optional(),
+  categoryId: z.string().optional(),
+  isActive: z.boolean().optional(),
+})
 
 export async function GET(req: NextRequest) {
   try {
@@ -42,19 +71,30 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json()
-    if (!body.name || typeof body.name !== "string" || !body.name.trim()) {
-      return Response.json({ error: "Name is required" }, { status: 400 })
+    const parsed = createProductSchema.parse(body)
+
+    if (parsed.barcode) {
+      const existing = await prisma.product.findUnique({ where: { barcode: parsed.barcode } })
+      if (existing) {
+        return Response.json({ error: "Barcode already exists" }, { status: 409 })
+      }
     }
-    if (body.price !== undefined && body.price !== null && isNaN(Number(body.price))) {
-      return Response.json({ error: "Price must be a valid number" }, { status: 400 })
+
+    if (parsed.categoryId) {
+      const category = await prisma.category.findUnique({ where: { id: parsed.categoryId } })
+      if (!category) {
+        return Response.json({ error: "Category not found" }, { status: 404 })
+      }
     }
-    if (body.stock !== undefined && body.stock !== null && isNaN(Number(body.stock))) {
-      return Response.json({ error: "Stock must be a valid number" }, { status: 400 })
-    }
-    const product = await prisma.product.create({ data: body })
+
+    const product = await prisma.product.create({ data: parsed })
     return Response.json(product)
   } catch (error: any) {
-    return Response.json({ error: error?.message || "Failed to create product" }, { status: 500 })
+    if (error instanceof z.ZodError) {
+      return Response.json({ error: "Validation failed", details: error.issues }, { status: 400 })
+    }
+    console.error("Failed to create product:", error)
+    return Response.json({ error: "Failed to create product" }, { status: 500 })
   }
 }
 
@@ -65,16 +105,33 @@ export async function PUT(req: NextRequest) {
     if (!id) {
       return Response.json({ error: "Product ID is required" }, { status: 400 })
     }
-    if (data.price !== undefined && data.price !== null && isNaN(Number(data.price))) {
-      return Response.json({ error: "Price must be a valid number" }, { status: 400 })
+
+    const parsed = updateProductSchema.parse(data)
+
+    if (parsed.barcode) {
+      const existing = await prisma.product.findFirst({
+        where: { barcode: parsed.barcode, NOT: { id } },
+      })
+      if (existing) {
+        return Response.json({ error: "Barcode already in use by another product" }, { status: 409 })
+      }
     }
-    if (data.stock !== undefined && data.stock !== null && isNaN(Number(data.stock))) {
-      return Response.json({ error: "Stock must be a valid number" }, { status: 400 })
+
+    if (parsed.categoryId) {
+      const category = await prisma.category.findUnique({ where: { id: parsed.categoryId } })
+      if (!category) {
+        return Response.json({ error: "Category not found" }, { status: 404 })
+      }
     }
-    const product = await prisma.product.update({ where: { id }, data })
+
+    const product = await prisma.product.update({ where: { id }, data: parsed })
     return Response.json(product)
   } catch (error: any) {
+    if (error instanceof z.ZodError) {
+      return Response.json({ error: "Validation failed", details: error.issues }, { status: 400 })
+    }
     if (error?.code === "P2025") return Response.json({ error: "Product not found" }, { status: 404 })
-    return Response.json({ error: error?.message || "Failed to update product" }, { status: 500 })
+    console.error("Failed to update product:", error)
+    return Response.json({ error: "Failed to update product" }, { status: 500 })
   }
 }

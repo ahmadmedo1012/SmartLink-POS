@@ -3,8 +3,19 @@ import Credentials from "next-auth/providers/credentials"
 import bcrypt from "bcryptjs"
 import { prisma } from "./prisma"
 
-// ponytail: auto-generate secret if missing (first deploy)
-const secret = process.env.AUTH_SECRET || process.env.NEXTAUTH_SECRET || Buffer.from("smart-link-pos-v1").toString("base64")
+// Critical: AUTH_SECRET must be set via environment variable.
+// Hardcoded fallback is a JWT forgery vulnerability (CWE-798).
+// Startup guard is in next.config.ts (server-only, not Edge Runtime).
+
+const secret = process.env.AUTH_SECRET
+
+/** Require a session with at least one of the given roles. Returns session or null. */
+export async function requireRole(...roles: string[]) {
+  const session = await auth()
+  if (!session?.user) return null
+  if (roles.length > 0 && !roles.includes((session.user as any).role)) return null
+  return session
+}
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   secret,

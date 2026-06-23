@@ -5,7 +5,7 @@ import { SessionProvider } from "next-auth/react"
 import { Toaster } from "react-hot-toast"
 import { useState, useEffect } from "react"
 import { CurrencyProvider } from "@/lib/currency"
-import { playClick, playSuccess, playError } from "@/lib/sounds"
+import { playSuccess, playError } from "@/lib/sounds"
 
 function ThemeInit() {
   useEffect(() => {
@@ -22,15 +22,6 @@ function ThemeInit() {
 
 export function Providers({ children }: { children: React.ReactNode }) {
   const [queryClient] = useState(() => new QueryClient())
-
-  useEffect(() => {
-    const handler = (e: MouseEvent) => {
-      const btn = (e.target as HTMLElement).closest("button, a[role=button]")
-      if (btn) playClick()
-    }
-    document.addEventListener("click", handler)
-    return () => document.removeEventListener("click", handler)
-  }, [])
 
   return (
     <SessionProvider refetchOnWindowFocus={false}>

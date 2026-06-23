@@ -76,7 +76,6 @@ const CurrencyContext = createContext<CurrencyContextValue | null>(null);
 
 export function CurrencyProvider({ children }: { children: ReactNode }) {
   const [currency, setCurrencyState] = useState<CurrencyCode>(DEFAULT_CURRENCY);
-  const [hydrated, setHydrated] = useState(false);
 
   // Hydrate from localStorage on mount
   useEffect(() => {
@@ -88,7 +87,6 @@ export function CurrencyProvider({ children }: { children: ReactNode }) {
     } catch {
       // localStorage not available — use default
     }
-    setHydrated(true);
   }, []);
 
   const setCurrency = useCallback((code: CurrencyCode) => {
@@ -115,11 +113,6 @@ export function CurrencyProvider({ children }: { children: ReactNode }) {
     },
     [currency],
   );
-
-  // Prevent hydration mismatch: render children only after we've read localStorage
-  if (!hydrated) {
-    return <>{children}</>;
-  }
 
   return (
     <CurrencyContext.Provider value={{ currency, setCurrency, formatCurrency: fmt }}>

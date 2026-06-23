@@ -36,6 +36,7 @@ model Product {
   nameAr      String?   // Arabic name
   barcode     String?   @unique
   description String?
+  imageUrl    String?
   price       Decimal   @db.Decimal(10, 2)
   cost        Decimal?  @db.Decimal(10, 2)
   stock       Int       @default(0)
@@ -49,6 +50,7 @@ model Product {
   returnItems  ReturnItem[]
 
   @@index([categoryId])
+  @@index([isActive])
 }
 
 model Customer {
@@ -93,6 +95,7 @@ model Invoice {
 
   @@index([userId])
   @@index([customerId])
+  @@index([status])
 }
 
 model InvoiceItem {
@@ -145,6 +148,8 @@ model Expense {
   date        DateTime @default(now())
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+
+  @@index([category])
 }
 
 model ActivityLog {
@@ -158,4 +163,6 @@ model ActivityLog {
   createdAt DateTime @default(now())
 
   @@index([userId, createdAt])
+  @@index([action, entity])
+  @@index([details])
 }

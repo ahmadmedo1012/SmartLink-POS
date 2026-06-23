@@ -73,18 +73,20 @@ export default function InvoiceDetailPage() {
           <Button
             variant="secondary"
             size="sm"
-            onClick={() => window.open(`/api/invoices/pdf?id=${id}`, "_blank")}
+            onClick={() => window.open(`/api/invoices/pdf?id=${id}`, "_blank", "noopener,noreferrer")}
           >
             <Printer className="w-4 h-4" />
             طباعة
+            <span className="sr-only">(يفتح في نافذة جديدة)</span>
           </Button>
           <Button
             variant="default"
             size="sm"
-            onClick={() => window.open(`/api/invoices/pdf?id=${id}`, "_blank")}
+            onClick={() => window.open(`/api/invoices/pdf?id=${id}`, "_blank", "noopener,noreferrer")}
           >
             <Download className="w-4 h-4" />
             PDF
+            <span className="sr-only">(يفتح في نافذة جديدة)</span>
           </Button>
         </div>
       </div>

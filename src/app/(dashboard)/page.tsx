@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useQuery } from "@tanstack/react-query"
 import {
   ShoppingCart, Package, FileText, DollarSign, TrendingUp, Users, Wallet, Receipt, AlertCircle,
@@ -90,11 +90,16 @@ export default function DashboardPage() {
   const { data: dash, error, refetch, isLoading } = useQuery({
     queryKey: ["dashboard"],
     queryFn: () => fetch("/api/dashboard").then((r) => r.json()),
-    refetchInterval: 15000,
+    refetchInterval: 60000,
+    staleTime: 30000,
   })
 
-  // Update last-updated timestamp on data arrival
-  if (dash && !lastUpdated) setLastUpdated(new Date().toLocaleTimeString("ar-SA", { hour: "2-digit", minute: "2-digit" }))
+  // Update last-updated timestamp on data arrival — wrapped in useEffect to avoid render-body setState
+  useEffect(() => {
+    if (dash && !lastUpdated) {
+      setLastUpdated(new Date().toLocaleTimeString("ar-SA", { hour: "2-digit", minute: "2-digit" }))
+    }
+  }, [dash, lastUpdated])
 
   const chartData = dash?.recentInvoices?.reduce((acc: any[], inv: any) => {
     const date = new Date(inv.createdAt).toLocaleDateString("ar-SA")

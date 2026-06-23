@@ -38,6 +38,10 @@ export async function POST(req: NextRequest) {
 
     const invoice = await prisma.$transaction(async (tx) => {
       for (const item of items) {
+        const product = await tx.product.findUniqueOrThrow({ where: { id: item.productId }, select: { stock: true } })
+        if (product.stock < item.quantity) {
+          throw new Error(`Insufficient stock for product ${item.productId}: available ${product.stock}, requested ${item.quantity}`)
+        }
         await tx.product.update({ where: { id: item.productId }, data: { stock: { decrement: item.quantity } } })
       }
       return tx.invoice.create({
@@ -48,6 +52,7 @@ export async function POST(req: NextRequest) {
     return Response.json(invoice)
   } catch (error: any) {
     if (error?.code === "P2025") return Response.json({ error: "One or more products not found" }, { status: 404 })
-    return Response.json({ error: error?.message || "Failed to create invoice" }, { status: 500 })
+    console.error("Failed to create invoice:", error)
+    return Response.json({ error: "Failed to create invoice" }, { status: 500 })
   }
 }

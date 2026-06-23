@@ -67,10 +67,15 @@ export default function ExpensesPage() {
   const [form, setForm] = useState(init)
   const { formatCurrency } = useCurrency()
 
-  const { data: expenses, isLoading, error, refetch } = useQuery({
+  const { data, isLoading, error, refetch } = useQuery({
     queryKey: ["expenses"],
     queryFn: () => fetch("/api/expenses").then((r) => r.json()),
   })
+
+  const expenses = data?.expenses ?? data
+  const totalExpenses = Array.isArray(expenses)
+    ? expenses.reduce((s: number, e: any) => s + Number(e.amount), 0)
+    : data?.total ?? 0
 
   const save = useMutation({
     mutationFn: (d: any) =>
@@ -87,11 +92,9 @@ export default function ExpensesPage() {
     },
   })
 
-  const total =
-    expenses?.reduce((s: number, e: any) => s + Number(e.amount), 0) || 0
-
   const filtered = useMemo(() => {
     if (!expenses) return []
+    if (!Array.isArray(expenses)) return []
     if (!search.trim()) return expenses
     const q = search.toLowerCase()
     return expenses.filter(
@@ -105,7 +108,7 @@ export default function ExpensesPage() {
     <PageShell>
       <PageHeader
         title="المصروفات"
-        subtitle={`${expenses?.length || 0} عملية`}
+        subtitle={`${(Array.isArray(expenses) ? data?.total ?? expenses.length : 0)} عملية`}
         action={
           <Button onClick={() => setOpen(true)}>
             <Plus className="w-4 h-4" />
@@ -125,7 +128,7 @@ export default function ExpensesPage() {
               إجمالي المصروفات
             </div>
             <div className="text-2xl font-bold text-foreground tracking-tight mt-0.5">
-              {formatCurrency(total)}
+              {formatCurrency(totalExpenses)}
             </div>
             <div className="text-xs text-muted-foreground/70 mt-0.5">
               جميع المصروفات المسجلة

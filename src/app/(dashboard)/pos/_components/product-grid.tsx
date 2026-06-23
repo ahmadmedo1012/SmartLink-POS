@@ -19,6 +19,7 @@ export interface Product {
   stock: number
   minStock?: number
   barcode?: string
+  imageUrl?: string
 }
 
 export interface Category {
@@ -153,9 +154,18 @@ export function ProductGrid({
                   "focus-visible:outline-2 focus-visible:outline-[var(--ring)]/50 focus-visible:outline-offset-2",
                 )}
               >
-                {/* Product icon */}
-                <div className="w-9 h-9 rounded-lg bg-secondary flex items-center justify-center mb-2.5">
-                  <Package className="w-4 h-4 text-muted-foreground" />
+                {/* Product thumbnail / icon */}
+                <div className="w-12 h-12 rounded-xl bg-secondary flex items-center justify-center mb-2.5 overflow-hidden">
+                  {product.imageUrl ? (
+                    <img
+                      src={product.imageUrl}
+                      alt={product.nameAr || product.name}
+                      className="w-full h-full object-cover"
+                      loading="lazy"
+                    />
+                  ) : (
+                    <Package className="w-5 h-5 text-muted-foreground" />
+                  )}
                 </div>
 
                 {/* Name */}

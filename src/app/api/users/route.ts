@@ -1,6 +1,9 @@
 import { prisma } from "@/lib/prisma"
+import { requireRole } from "@/lib/auth"
 
 export async function GET() {
+  const session = await requireRole("admin")
+  if (!session) return Response.json({ error: "Unauthorized" }, { status: 401 })
   try {
     const users = await prisma.user.findMany({
       select: { id: true, name: true, email: true, role: true, isActive: true, createdAt: true },
@@ -13,6 +16,8 @@ export async function GET() {
 }
 
 export async function PUT(req: Request) {
+  const session = await requireRole("admin")
+  if (!session) return Response.json({ error: "Unauthorized" }, { status: 401 })
   try {
     const { id, ...data } = await req.json()
     if (!id) {
@@ -22,11 +27,14 @@ export async function PUT(req: Request) {
     return Response.json(user)
   } catch (error: any) {
     if (error?.code === "P2025") return Response.json({ error: "User not found" }, { status: 404 })
-    return Response.json({ error: error?.message || "Failed to update user" }, { status: 500 })
+    console.error("Failed to update user:", error)
+    return Response.json({ error: "Failed to update user" }, { status: 500 })
   }
 }
 
 export async function DELETE(req: Request) {
+  const session = await requireRole("admin")
+  if (!session) return Response.json({ error: "Unauthorized" }, { status: 401 })
   try {
     const { id } = await req.json()
     if (!id) {
@@ -36,6 +44,7 @@ export async function DELETE(req: Request) {
     return Response.json({ success: true })
   } catch (error: any) {
     if (error?.code === "P2025") return Response.json({ error: "User not found" }, { status: 404 })
-    return Response.json({ error: error?.message || "Failed to deactivate user" }, { status: 500 })
+    console.error("Failed to deactivate user:", error)
+    return Response.json({ error: "Failed to deactivate user" }, { status: 500 })
   }
 }

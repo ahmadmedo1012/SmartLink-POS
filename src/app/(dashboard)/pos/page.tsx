@@ -6,6 +6,7 @@ import { useSession } from "next-auth/react"
 import toast from "react-hot-toast"
 import { useCurrency } from "@/lib/currency"
 import { playClick } from "@/lib/sounds"
+import { useCartStore } from "@/stores/cart-store"
 import { BarcodeInput } from "./_components/barcode-input"
 import { ProductGrid } from "./_components/product-grid"
 import { CartPanel, type CartItem, type Customer } from "./_components/cart-panel"
@@ -32,7 +33,7 @@ export default function POSPage() {
 
   const [search, setSearch] = useState("")
   const [categoryId, setCategoryId] = useState("")
-  const [cart, setCart] = useState<CartItem[]>([])
+  const { cart, setCart } = useCartStore()
   const [customerName, setCustomerName] = useState("")
   const [paidAmount, setPaidAmount] = useState("")
   const [barcodeInput, setBarcodeInput] = useState("")

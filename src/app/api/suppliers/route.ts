@@ -19,6 +19,7 @@ export async function POST(req: NextRequest) {
     const supplier = await prisma.supplier.create({ data: body })
     return Response.json(supplier)
   } catch (error: any) {
-    return Response.json({ error: error?.message || "Failed to create supplier" }, { status: 500 })
+    console.error("Failed to create supplier:", error)
+    return Response.json({ error: "Failed to create supplier" }, { status: 500 })
   }
 }

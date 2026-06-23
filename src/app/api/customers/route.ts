@@ -3,25 +3,29 @@ import { NextRequest } from "next/server"
 
 export async function GET(req: NextRequest) {
   try {
-    const { searchParams } = new URL(req.url)
-    const search = searchParams.get("search")
+    const page = Math.max(1, Number(req.nextUrl.searchParams.get("page")) || 1)
+    const pageSize = Math.min(100, Math.max(1, Number(req.nextUrl.searchParams.get("pageSize")) || 20))
+    const search = req.nextUrl.searchParams.get("search")
 
-    if (search) {
-      const customers = await prisma.customer.findMany({
-        where: {
+    const where = search
+      ? {
           OR: [
-            { name: { contains: search, mode: "insensitive" } },
+            { name: { contains: search, mode: "insensitive" as const } },
             { phone: { contains: search } },
           ],
-        },
-        orderBy: { createdAt: "desc" },
-        take: 10,
-      })
-      return Response.json(customers)
-    }
+        }
+      : undefined
 
-    const customers = await prisma.customer.findMany({ orderBy: { createdAt: "desc" }, take: 100 })
-    return Response.json(customers)
+    const [customers, total] = await Promise.all([
+      prisma.customer.findMany({
+        where,
+        orderBy: { createdAt: "desc" },
+        skip: (page - 1) * pageSize,
+        take: pageSize,
+      }),
+      prisma.customer.count({ where }),
+    ])
+    return Response.json({ customers, total, page, pageSize, pages: Math.ceil(total / pageSize) })
   } catch (error) {
     return Response.json({ error: "Failed to fetch customers" }, { status: 500 })
   }
@@ -36,6 +40,7 @@ export async function POST(req: NextRequest) {
     const customer = await prisma.customer.create({ data: body })
     return Response.json(customer)
   } catch (error: any) {
-    return Response.json({ error: error?.message || "Failed to create customer" }, { status: 500 })
+    console.error("Failed to create customer:", error)
+    return Response.json({ error: "Failed to create customer" }, { status: 500 })
   }
 }

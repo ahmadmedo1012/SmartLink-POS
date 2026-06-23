@@ -20,6 +20,7 @@ export async function POST(req: NextRequest) {
     return Response.json(category)
   } catch (error: any) {
     if (error?.code === "P2002") return Response.json({ error: "Category with this name already exists" }, { status: 409 })
-    return Response.json({ error: error?.message || "Failed to create category" }, { status: 500 })
+    console.error("Failed to create category:", error)
+    return Response.json({ error: "Failed to create category" }, { status: 500 })
   }
 }

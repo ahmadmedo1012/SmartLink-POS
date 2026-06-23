@@ -36,6 +36,7 @@ interface Product {
   name: string
   nameAr: string
   barcode: string
+  imageUrl: string | null
   price: number
   cost: number | null
   stock: number
@@ -61,6 +62,7 @@ interface ProductForm {
   name: string
   nameAr: string
   barcode: string
+  imageUrl: string
   price: string
   cost: string
   stock: string
@@ -72,6 +74,7 @@ const emptyForm: ProductForm = {
   name: "",
   nameAr: "",
   barcode: "",
+  imageUrl: "",
   price: "",
   cost: "",
   stock: "0",
@@ -183,6 +186,7 @@ export default function ProductsPage() {
       name: product.name,
       nameAr: product.nameAr || "",
       barcode: product.barcode || "",
+      imageUrl: product.imageUrl || "",
       price: String(product.price),
       cost: product.cost ? String(product.cost) : "",
       stock: String(product.stock),
@@ -323,6 +327,16 @@ export default function ProductsPage() {
                 placeholder="الباركود"
                 value={form.barcode}
                 onChange={(e) => setForm({ ...form, barcode: e.target.value })}
+              />
+            </div>
+
+            <div className="space-y-1.5">
+              <label htmlFor="product-image" className="text-xs font-medium text-muted-foreground">رابط الصورة</label>
+              <Input
+                id="product-image"
+                placeholder="رابط الصورة"
+                value={form.imageUrl}
+                onChange={(e) => setForm({ ...form, imageUrl: e.target.value })}
               />
             </div>
 
