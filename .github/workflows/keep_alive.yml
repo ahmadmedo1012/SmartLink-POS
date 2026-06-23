@@ -2,19 +2,18 @@ name: Keep Website Alive
 
 on:
   schedule:
-    # Minimum GitHub Actions cron interval
+    # GitHub minimum is 5 min. Each run loops 5×60s = 5 min → effectively pings every 1 min
     - cron: '*/5 * * * *'
-  # Also allow manual trigger
   workflow_dispatch:
 
 jobs:
   ping:
     runs-on: ubuntu-latest
     steps:
-      - name: Ping Server Every 50 Seconds
+      - name: Ping Every Minute
         run: |
-          for i in $(seq 1 6); do
+          for i in $(seq 1 5); do
             curl -s -o /dev/null -w "%{http_code}" -I https://pos-m80w.onrender.com
             echo ""
-            sleep 50
+            [ $i -lt 5 ] && sleep 60
           done
